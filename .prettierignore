@@ -1,0 +1,13 @@
+dist/
+build/
+public/
+**/*.js
+**/*.js.map
+**/*.json
+**/*.node.json
+**/*.lock.json
+**/*.md
+**/*.config.ts
+**/*.css
+**/*.scss
+**/*.html
