@@ -1,0 +1,13 @@
+@use 'src/scss/colors' as *;
+
+
+.registerform-form {
+  padding: 0 7% 0 7%;
+
+  .form-error {
+    font-size: 0.8rem;
+    color: $error;
+    text-align: center;
+    margin-top: 0.7rem;
+  }
+}

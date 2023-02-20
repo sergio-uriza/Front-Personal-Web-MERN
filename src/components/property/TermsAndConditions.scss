@@ -1,0 +1,29 @@
+.termsandconditions-link {
+  color: #002984;
+  font-style: italic;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.termsandconditions-body {
+  box-sizing: border-box;
+  position: absolute;
+  background-color: lightgray;
+  max-width: 760px;
+  min-width: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  padding: 2%;
+  border: 2px solid #000;
+  border-radius: 20px;
+  box-shadow: 24;
+
+  & h2 {
+    text-align: center;
+  }
+}

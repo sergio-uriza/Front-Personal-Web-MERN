@@ -1,0 +1,19 @@
+@use 'src/scss/colors' as *;
+
+.authadminpage-page {
+  background-image: url('../../assets/auth-bg.jpg');
+  background-position: center;
+  background-size: contain;
+  min-height: 100vh;
+  padding-top: 100px;
+
+  .box-panel {
+    background-color: white;
+    border-radius: 0.8rem;
+    border: thin solid $border-grey;
+
+    .tab {
+      width: 50%;
+    }
+  }
+}
