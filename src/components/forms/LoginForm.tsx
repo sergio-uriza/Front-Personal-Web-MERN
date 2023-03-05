@@ -15,23 +15,34 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import CircularProgress from '@mui/material/CircularProgress'
+import Link from '@mui/material/Link'
 import { Formik } from 'formik'
 import { LoginFormType, loginSchema } from '../../schemas/login.schema'
-import { loginUserAuth } from '../../services/authService'
 import { useFormError } from '../../hooks/useFormError'
 import { useState } from 'react'
+import { useAuthContext } from '../../hooks/context/useAuthContext'
+import { setAccTokenLocalStorage, setRefTokenLocalStorage } from '../../utils/localStorage'
+import { LoginUserAuthType } from '../../services/types'
+import { useNavigate } from 'react-router-dom'
 
 const initialValues: LoginFormType = {
   email: '',
   pwd: ''
 }
 
-export default function LoginForm (): JSX.Element {
+type PropsType = {
+  fetchLogin: (email: string, password: string) => Promise<LoginUserAuthType>
+}
+
+export function LoginForm ({ fetchLogin }: PropsType): JSX.Element {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const { formError, clearFormError, handleFormError } = useFormError()
+  const { loginAuthHandler } = useAuthContext()
+  const navigate = useNavigate()
 
   const handleClickShowPassword = (): void => { setShowPassword((prev) => !prev) }
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>): void => { e.preventDefault() }
+  const redirectToHome = (): void => { navigate('/') }
 
   return (
     <Formik
@@ -40,8 +51,10 @@ export default function LoginForm (): JSX.Element {
       onSubmit={async ({ email, pwd }, { resetForm }) => {
         try {
           clearFormError()
-          console.log(email, pwd)
-          await loginUserAuth(email, pwd)
+          const { accessToken, refreshToken } = await fetchLogin(email, pwd)
+          await loginAuthHandler(accessToken)
+          setAccTokenLocalStorage(accessToken)
+          setRefTokenLocalStorage(refreshToken)
           resetForm()
         } catch (err) {
           handleFormError(err)
@@ -117,7 +130,7 @@ export default function LoginForm (): JSX.Element {
           <Button
             type='submit'
             variant='contained'
-            sx={{ mt: 1, mb: 2 }}
+            sx={{ mt: 4, mb: 2 }}
             disabled={isSubmitting}
             fullWidth
           >
@@ -126,6 +139,14 @@ export default function LoginForm (): JSX.Element {
               : (<span>Sign In</span>)
             }
           </Button>
+
+          <Grid container justifyContent='flex-end'>
+            <Grid textAlign='end'>
+              <Link onClick={redirectToHome} variant='body2' sx={{ fontStyle: 'italic', '&:hover': { cursor: 'pointer' } }}>
+                Just visiting? Return to home page
+              </Link>
+            </Grid>
+          </Grid>
 
           <Typography className='form-error' component='p' >
             { formError }

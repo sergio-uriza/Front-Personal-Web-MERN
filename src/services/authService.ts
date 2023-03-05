@@ -1,7 +1,6 @@
 import { axiosConfig } from './config/axios.config'
-import { constServerAPI } from './config/constants.config'
-import { LoginUserAuthType } from './types/auth'
-import { MessageResponseType } from './types/generic'
+import { SERVER_ROUTES } from './config/constants.config'
+import { LoginUserAuthType, MessageResponseType, RefreshAccTokenAuthType } from './types'
 
 export const registerUserAuth = async (
   firstname: string,
@@ -10,8 +9,8 @@ export const registerUserAuth = async (
   password: string
 ): Promise<MessageResponseType> => {
   const body = { firstname, lastname, email, password }
-  const res = await axiosConfig.post(constServerAPI.AUTH_ROUTES.REGISTER_USER, body)
-  if (res.status !== 201 || res.data === undefined) throw new Error('Something has gone wrong')
+  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.REGISTER_USER, body)
+  if (res.status !== 201 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }
 
@@ -20,7 +19,26 @@ export const loginUserAuth = async (
   password: string
 ): Promise<LoginUserAuthType> => {
   const body = { email, password }
-  const res = await axiosConfig.post(constServerAPI.AUTH_ROUTES.LOGIN_USER, body)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong')
+  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.LOGIN_USER, body)
+  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  return res.data
+}
+
+export const loginAdminAuth = async (
+  email: string,
+  password: string
+): Promise<LoginUserAuthType> => {
+  const body = { email, password }
+  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.LOGIN_ADMIN, body)
+  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  return res.data
+}
+
+export const refreshAccTokenAuth = async (
+  refToken: string
+): Promise<RefreshAccTokenAuthType> => {
+  const body = { refToken }
+  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.REFRESH_TOKEN, body)
+  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }

@@ -13,9 +13,9 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Formik } from 'formik'
 import { registerSchema, RegisterFormType } from '../../schemas/register.schema'
-import { registerUserAuth } from '../../services/authService'
 import { useFormError } from '../../hooks/useFormError'
-import TermsAndConditions from '../property/TermsAndConditions'
+import { TermsAndConditions } from '../property/TermsAndConditions'
+import { registerUserAuth } from '../../services/authService'
 
 const initialValues: RegisterFormType = {
   firstname: '',
@@ -26,11 +26,11 @@ const initialValues: RegisterFormType = {
   terms: false
 }
 
-interface Props {
-  setToLogin: () => void
+type PropsType = {
+  setToLogin?: () => void
 }
 
-export default function RegisterForm ({ setToLogin }: Props): JSX.Element {
+export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
 
   return (
@@ -42,7 +42,7 @@ export default function RegisterForm ({ setToLogin }: Props): JSX.Element {
           clearFormError()
           await registerUserAuth(firstname, lastname, email, pwd)
           resetForm()
-          setToLogin()
+          if (setToLogin != null) setToLogin()
         } catch (err) {
           handleFormError(err)
         }
@@ -53,7 +53,7 @@ export default function RegisterForm ({ setToLogin }: Props): JSX.Element {
           <Grid container spacing={2}>
             <Grid xs={12} sm={12} display='flex' justifyContent='center'>
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 55, height: 55 }}>
-                <PersonAddAltOutlinedIcon fontSize='medium' />
+                <PersonAddAltOutlinedIcon fontSize='large' />
               </Avatar>
             </Grid>
             <Grid xs={12} sm={6}>
@@ -173,7 +173,7 @@ export default function RegisterForm ({ setToLogin }: Props): JSX.Element {
           <Button
             type='submit'
             variant='contained'
-            sx={{ mt: 1, mb: 2 }}
+            sx={{ mt: 2, mb: 2 }}
             disabled={isSubmitting}
             fullWidth
           >
@@ -183,7 +183,7 @@ export default function RegisterForm ({ setToLogin }: Props): JSX.Element {
             }
           </Button>
 
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent='flex-end'>
             <Grid textAlign='end'>
               <TermsAndConditions />
             </Grid>

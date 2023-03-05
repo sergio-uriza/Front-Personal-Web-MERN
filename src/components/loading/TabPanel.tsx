@@ -1,15 +1,15 @@
 import Box from '@mui/material/Box'
 
-interface Props {
+type PropsType = {
   children?: JSX.Element
   index: number
   value: number
 }
 
-export default function TabPanel ({ children, value, index }: Props): JSX.Element {
+export function TabPanel ({ children, value, index }: PropsType): JSX.Element {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}

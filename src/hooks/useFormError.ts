@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { useState } from 'react'
 import { AxiosError } from 'axios'
 
@@ -25,7 +24,7 @@ export const useFormError = (): UseFormErrorType => {
         setFormError('Server Error, we could not complete your request')
       }
     } else if (err instanceof Error) {
-      setFormError(`${err.message}, please try again later`)
+      setFormError(`${err.message}`)
     } else {
       setFormError('Server Connection Error, please try again later')
     }

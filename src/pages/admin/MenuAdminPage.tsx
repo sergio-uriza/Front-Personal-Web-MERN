@@ -1,4 +1,4 @@
-export default function MenuAdminPage (): JSX.Element {
+export function MenuAdminPage (): JSX.Element {
   return (
     <div>
       Pagina de menus

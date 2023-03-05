@@ -1,38 +1,21 @@
 import './AuthAdminPage.scss'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import { useState } from 'react'
-import TabPanel from '../../components/TabPanel'
-import RegisterForm from '../../components/forms/RegisterForm'
-import LoginForm from '../../components/forms/LoginForm'
+import { LoginForm } from '../../components/forms/LoginForm'
+import { IconMERN } from '../../assets/svg/IconMERN'
+import { loginAdminAuth } from '../../services/authService'
 
-export default function AuthAdminPage (): JSX.Element {
-  const [value, setValue] = useState<number>(0)
-
-  const handleChange = (e: React.SyntheticEvent, newValue: number): void => {
-    setValue(newValue)
-  }
-
-  const setToLogin = (): void => { setValue(0) }
-
+export function AuthAdminPage (): JSX.Element {
   return (
     <div className='authadminpage-page'>
-      <Container maxWidth="sm">
-        <Box className='box-panel' >
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="primary tabs" >
-              <Tab className='tab' label="Sign in" />
-              <Tab className='tab' label="Sign up" />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            <LoginForm />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <RegisterForm setToLogin={setToLogin} />
-          </TabPanel>
+      <Container maxWidth='sm'>
+        <IconMERN className='logo'/>
+        <Box className='box-panel' sx={{ py: 2 }}>
+          <Typography component='h1' variant='h5' sx={{ textAlign: 'center' }}>
+            Sign in
+          </Typography>
+          <LoginForm fetchLogin={loginAdminAuth} />
         </Box>
       </Container>
     </div>

@@ -1,0 +1,9 @@
+@use 'src/sass/colors' as *;
+
+.userappbar-header {
+  background-color: $background-dark !important;
+  .css-hyum1k-MuiToolbar-root {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

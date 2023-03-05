@@ -1,0 +1,33 @@
+@use 'src/sass/colors' as *;
+
+.usermenu-toolbar {
+  justify-content: center;
+
+  &.css-hyum1k-MuiToolbar-root {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .logo {
+    svg {
+      height: 32px !important;
+      width: 100% !important;
+      margin-top: 5px;
+      color: $text-light;
+    }
+
+    span {
+      font-size: 10px;
+      letter-spacing: 2.8px;
+    }
+  }
+}
+
+
+.usermenu-list a {
+  &:hover,
+  &.Mui-selected,
+  &.Mui-selected:hover {
+    background-color: $primary-hover;
+  }
+}

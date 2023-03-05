@@ -1,4 +1,4 @@
-export default function ContactPage (): JSX.Element {
+export function ContactPage (): JSX.Element {
   return (
     <div>
       ContactPage

@@ -1,4 +1,4 @@
-export default function BlogDetailPage (): JSX.Element {
+export function BlogDetailPage (): JSX.Element {
   return (
     <div>
       BlogDetailPage
