@@ -37,7 +37,7 @@ export const loginAdminAuth = async (
 export const refreshAccTokenAuth = async (
   refToken: string
 ): Promise<RefreshAccTokenAuthType> => {
-  const body = { refToken }
+  const body = { refreshToken: refToken }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.REFRESH_TOKEN, body)
   if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data

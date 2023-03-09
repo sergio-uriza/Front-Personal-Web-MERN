@@ -31,20 +31,13 @@ export function AppRoute (): JSX.Element {
 
   return (
     <Routes>
-      {/* ADMIN ROUTES */}
-      <Route element={<ProtectedRoute redirectTo={loggedUser != null && loggedUser.role !== UserRole.ADMIN ? '/' : '/admin/auth'} isAllowed={loggedUser != null && loggedUser.role === UserRole.ADMIN} />} >
-        <Route path='/admin' element={<AdminLayout />} >
-          <Route index element={<p>Bienvenido, desde aqui puedes gestionar la aplicacion</p>} />
-          <Route path='users' element={<UsersAdminPage />} />
-          <Route path='menu' element={<MenuAdminPage />} />
-          <Route path='courses' element={<CoursesAdminPage />} />
-          <Route path='blog' element={<BlogAdminPage />} />
-          <Route path='newsletter' element={<NewsletterAdminPage />} />
-        </Route>
-      </Route>
-
-      <Route element={<ProtectedRoute redirectTo={loggedUser != null && loggedUser.role !== UserRole.ADMIN ? '/' : '/admin'} isAllowed={loggedUser == null} />} >
-        <Route path='/admin/auth' element={<AuthAdminPage />} />
+      {/* CLIENT ROUTES */}
+      <Route path='/' element={<ClientLayout />} >
+        <Route index element={<HomePage />} />
+        <Route path='courses' element={<CoursesPage />} />
+        <Route path='contact' element={<ContactPage />} />
+        <Route path='blog' element={<BlogPage />} />
+        <Route path='blog/:path' element={<BlogDetailPage />} />
       </Route>
 
       {/* USER ROUTES */}
@@ -60,13 +53,20 @@ export function AppRoute (): JSX.Element {
         <Route path='/user/auth' element={<AuthUserPage />} />
       </Route>
 
-      {/* CLIENT ROUTES */}
-      <Route path='/' element={<ClientLayout />} >
-        <Route index element={<HomePage />} />
-        <Route path='courses' element={<CoursesPage />} />
-        <Route path='contact' element={<ContactPage />} />
-        <Route path='blog' element={<BlogPage />} />
-        <Route path='blog/:path' element={<BlogDetailPage />} />
+      {/* ADMIN ROUTES */}
+      <Route element={<ProtectedRoute redirectTo={loggedUser != null && loggedUser.role !== UserRole.ADMIN ? '/' : '/admin/auth'} isAllowed={loggedUser != null && loggedUser.role === UserRole.ADMIN} />} >
+        <Route path='/admin' element={<AdminLayout />} >
+          <Route index element={<p>Bienvenido, desde aqui puedes gestionar la aplicacion</p>} />
+          <Route path='users' element={<UsersAdminPage />} />
+          <Route path='menu' element={<MenuAdminPage />} />
+          <Route path='courses' element={<CoursesAdminPage />} />
+          <Route path='blog' element={<BlogAdminPage />} />
+          <Route path='newsletter' element={<NewsletterAdminPage />} />
+        </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute redirectTo={loggedUser != null && loggedUser.role !== UserRole.ADMIN ? '/' : '/admin'} isAllowed={loggedUser == null} />} >
+        <Route path='/admin/auth' element={<AuthAdminPage />} />
       </Route>
 
       {/* 404 NOT FOUND */}

@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { AdminNavBarRes } from '../../components/adminLayout/AdminNavBarRes'
 import { AdminAppBar } from '../../components/adminLayout/AdminAppBar'
@@ -48,9 +47,7 @@ export function AdminLayout ({ children }: PropsType): JSX.Element {
         }}
       >
         <Toolbar />
-        <Typography component='div'>
-          {children != null ? children : <Outlet />}
-        </Typography>
+        {children != null ? children : <Outlet />}
       </Box>
     </Box>
   )

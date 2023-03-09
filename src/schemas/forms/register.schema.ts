@@ -17,15 +17,15 @@ export const registerSchema = Yup.object({
     .lowercase()
     .email('Enter a valid email')
     .required('Email is required'),
-  pwd: Yup
+  password: Yup
     .string()
     .min(6, 'Minimum 6 characters length')
     .required('Password is required'),
   confpwd: Yup
     .string()
-    .when('pwd', {
+    .when('password', {
       is: (value: string | undefined) => ((value != null) && value.length > 0),
-      then: Yup.string().oneOf([Yup.ref('pwd')], 'Password must match')
+      then: Yup.string().oneOf([Yup.ref('password')], 'Password must match')
     })
     .required('You must confirm the password'),
   terms: Yup

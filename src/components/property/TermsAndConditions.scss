@@ -1,17 +1,12 @@
 .termsandconditions-body {
   box-sizing: border-box;
-  position: absolute;
-  background-color: lightgray;
+  background-color: white;
   max-width: 760px;
   min-width: 300px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
   padding: 2%;
   border: 2px solid #000;
-  border-radius: 20px;
-  box-shadow: 24;
+  border-radius: 5px;
+  z-index: 1;
 
   & h2 {
     text-align: center;

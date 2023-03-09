@@ -11,7 +11,17 @@ export const SERVER_ROUTES = {
       REFRESH_TOKEN: '/auth/refresh'
     },
     USER: {
-      GET_ME: '/user/me'
+      GET_ME: '/user/me',
+      GET_MULTIPLE_USER: '/user',
+      CREATE_USER: '/user',
+      UPDATE_USER: '/user',
+      DELETE_USER: '/user'
+    },
+    MENU: {
+      GET_MULTIPLE_MENU: '/menu',
+      CREATE_MENU: '/menu',
+      UPDATE_MENU: '/menu',
+      DELETE_MENU: '/menu'
     }
   }
 }

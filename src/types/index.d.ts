@@ -1,11 +1,7 @@
-import { UserRole } from '../enums/userRole.enum'
+import { UserTypeAPI, MenuTypeAPI } from '../services/types'
 
-export type UserType = {
-  _id: string
-  firstname: string
-  lastname: string
-  email: string
-  role: UserRole
-  active: boolean
-  avatar?: string
-}
+export type CreateUserBodyType = Omit<UserTypeAPI, '_id' | 'active' | 'avatar'> & { password: string }
+export type UpdateUserBodyType = Partial<Omit<UserTypeAPI, '_id' | 'avatar'>> & { password?: string }
+
+export type CreateMenuBodyType = Omit<MenuTypeAPI, '_id'>
+export type UpdateMenuBodyType = Partial<Omit<MenuTypeAPI, '_id'>>
