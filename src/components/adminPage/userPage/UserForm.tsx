@@ -15,10 +15,10 @@ import { useDropzone } from 'react-dropzone'
 import { useCallback } from 'react'
 import { createUser, updateUser } from '../../../services/userService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { GetMultipleUserType } from '../../../services/types'
+import { UserTypeAPI } from '../../../services/types'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 
-const initialValues = (user?: GetMultipleUserType): UserFormType & { avatarURL: string, avatar?: File } => {
+const initialValues = (user?: UserTypeAPI): UserFormType & { avatarURL: string, avatar?: File } => {
   return {
     avatarURL: user?.avatar ?? '',
     avatar: undefined,
@@ -45,7 +45,7 @@ const roleOptions = [
 type PropsType = {
   handleCloseModal: () => void
   handleNewGet: () => void
-  user?: GetMultipleUserType
+  user?: UserTypeAPI
 }
 
 export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): JSX.Element {

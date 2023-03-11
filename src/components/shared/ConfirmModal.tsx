@@ -7,6 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Zoom from '@mui/material/Zoom'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
+import InfoIcon from '@mui/icons-material/Info'
 import { TransitionProps } from '@mui/material/transitions'
 import { forwardRef, useState } from 'react'
 import { useFormError } from '../../hooks/useFormError'
@@ -50,7 +51,8 @@ export function ConfirmModal ({ show, handleClose, ModalTitle, ModalContent, han
       TransitionComponent={Transition}
       onClose={handleClose}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center' }}>
+        <InfoIcon sx={{ mr: '1rem' }} color='warning' />
         {ModalTitle}
       </DialogTitle>
       <DialogContent>
@@ -58,7 +60,7 @@ export function ConfirmModal ({ show, handleClose, ModalTitle, ModalContent, han
           {ModalContent}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, justifyContent: { xs: 'center', sm: 'flex-end' } }}>
         { isSending
           ? <CircularProgress color='inherit' size='1rem' sx={{ mr: 1 }}/>
           : null

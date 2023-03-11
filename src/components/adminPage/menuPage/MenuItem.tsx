@@ -1,4 +1,3 @@
-import { GetMultipleMenuType } from '../../../services/types'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import EditIcon from '@mui/icons-material/Edit'
@@ -6,16 +5,18 @@ import DoneIcon from '@mui/icons-material/Done'
 import BlockIcon from '@mui/icons-material/Block'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Unstable_Grid2'
 import { BasicModal } from '../../shared/BasicModal'
 import { useModalComponent } from '../../../hooks/useModalComponent'
 import { useState } from 'react'
-import { ConfirmModal } from '../../shared/ConfirmModal'
 import { MenuForm } from './MenuForm'
+import { ConfirmModal } from '../../shared/ConfirmModal'
+import { MenuTypeAPI } from '../../../services/types'
 import { deleteMenu, updateMenu } from '../../../services/menuService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 
 type PropsType = {
-  menu: GetMultipleMenuType
+  menu: MenuTypeAPI
   handleNewGet: () => void
 }
 
@@ -58,11 +59,11 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
   }
 
   return (
-    <>
+    <Grid xs={12} sm={12} md={12} lg={6}>
       <Box component='div'
-        sx={{ width: '100%', maxWidth: '510px', bgcolor: 'white', p: 1, display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}
+        sx={{ bgcolor: 'white', p: 1, display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}
       >
-        <Box component='div'>
+        <Box component='div' sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', ' p': { wordBreak: 'break-word' } }}>
           <Typography component='p' variant='body1' sx={{ mb: '0.18rem', fontWeight: 'bold' }}>
             {menu.title}
           </Typography>
@@ -76,7 +77,7 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
 
         <Box
           component='div'
-          sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: { xs: 'column', sm: 'row' } }}
+          sx={{ ml: 1, display: 'flex', alignItems: 'flex-start', flexDirection: { xs: 'column', sm: 'row' } }}
         >
           <Button onClick={handleCustomOpenModal} variant='contained' sx={{ minWidth: '0.6rem', p: { xs: '6px', sm: 1 }, m: '0.13rem' }}>
             <EditIcon sx={{ fontSize: { xs: '0.8rem', sm: '1.1rem' } }} />
@@ -107,6 +108,6 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
           ModalContent={modalConfirmMessage}
         />
       </Box>
-    </>
+    </Grid>
   )
 }

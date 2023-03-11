@@ -15,7 +15,7 @@ export function TabPanel ({ children, value, index }: PropsType): JSX.Element {
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ py: 2, gap: '8px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ py: 2 }}>
           {children}
         </Box>
       )}

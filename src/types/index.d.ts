@@ -1,7 +1,10 @@
-import { UserTypeAPI, MenuTypeAPI } from '../services/types'
+import { UserTypeAPI, MenuTypeAPI, CourseTypeAPI } from '../services/types'
 
 export type CreateUserBodyType = Omit<UserTypeAPI, '_id' | 'active' | 'avatar'> & { password: string }
 export type UpdateUserBodyType = Partial<Omit<UserTypeAPI, '_id' | 'avatar'>> & { password?: string }
 
 export type CreateMenuBodyType = Omit<MenuTypeAPI, '_id'>
 export type UpdateMenuBodyType = Partial<Omit<MenuTypeAPI, '_id'>>
+
+export type CreateCourseBodyType = Omit<CourseTypeAPI, '_id' | 'miniature'>
+export type UpdateCourseBodyType = Partial<Omit<CourseTypeAPI, '_id' | 'miniature'>>

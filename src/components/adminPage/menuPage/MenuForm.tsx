@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useFormik } from 'formik'
 import { useFormError } from '../../../hooks/useFormError'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { GetMultipleMenuType } from '../../../services/types'
+import { MenuTypeAPI } from '../../../services/types'
 import { MenuFormType, menuSchema } from '../../../schemas/adminPage/menu.schema'
 import { createMenu, updateMenu } from '../../../services/menuService'
 
@@ -25,7 +25,7 @@ const extractWithoutPrefix = (text: string): string => {
   return text.substring(1)
 }
 
-const initialValues = (menu?: GetMultipleMenuType): MenuFormType & { prefix: 'https://' | 'http://' | '/' } => {
+const initialValues = (menu?: MenuTypeAPI): MenuFormType & { prefix: 'https://' | 'http://' | '/' } => {
   return {
     title: menu?.title ?? '',
     order: menu?.order ?? 0,
@@ -52,7 +52,7 @@ const prefixOptions = [
 type PropsType = {
   handleCloseModal: () => void
   handleNewGet: () => void
-  menu?: GetMultipleMenuType
+  menu?: MenuTypeAPI
 }
 
 export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): JSX.Element {

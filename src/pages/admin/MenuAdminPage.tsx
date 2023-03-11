@@ -7,6 +7,7 @@ import Button from '@mui/material/Button'
 import { TabPanel } from '../../components/shared/TabPanel'
 import WebAssetIcon from '@mui/icons-material/WebAsset'
 import WebAssetOffIcon from '@mui/icons-material/WebAssetOff'
+import Grid from '@mui/material/Unstable_Grid2'
 import { BasicModal } from '../../components/shared/BasicModal'
 import { useModalComponent } from '../../hooks/useModalComponent'
 import { ListMenus } from '../../components/adminPage/menuPage/ListMenus'
@@ -42,10 +43,14 @@ export function MenuAdminPage (): JSX.Element {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <ListMenus isMenuActive={true} newGet={newGet} handleNewGet={handleNewGet} />
+          <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
+            <ListMenus isMenuActive={true} newGet={newGet} handleNewGet={handleNewGet} />
+          </Grid>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ListMenus isMenuActive={false} newGet={newGet} handleNewGet={handleNewGet} />
+          <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
+            <ListMenus isMenuActive={false} newGet={newGet} handleNewGet={handleNewGet} />
+          </Grid>
         </TabPanel>
       </Box>
 

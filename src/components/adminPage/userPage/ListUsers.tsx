@@ -13,8 +13,8 @@ type PropsType = {
 export const ListUsers = memo(function ListUsers ({ isUserActive, newGet, handleNewGet }: PropsType): JSX.Element {
   const { listUsers } = useGetMultipleUser(isUserActive, newGet)
 
-  if (listUsers == null) return (<CircularProgress color='inherit' size={20} />)
-  if (listUsers.length === 0) return <>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></>
+  if (listUsers == null) return (<CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>)
+  if (listUsers.length === 0) return <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></span>
 
   return (
     <>

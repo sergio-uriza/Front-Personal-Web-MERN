@@ -7,6 +7,7 @@ import Button from '@mui/material/Button'
 import { TabPanel } from '../../components/shared/TabPanel'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import PersonOffIcon from '@mui/icons-material/PersonOff'
+import Grid from '@mui/material/Unstable_Grid2'
 import { BasicModal } from '../../components/shared/BasicModal'
 import { useModalComponent } from '../../hooks/useModalComponent'
 import { UserForm } from '../../components/adminPage/userPage/UserForm'
@@ -42,10 +43,14 @@ export function UsersAdminPage (): JSX.Element {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <ListUsers isUserActive={true} newGet={newGet} handleNewGet={handleNewGet} />
+          <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
+            <ListUsers isUserActive={true} newGet={newGet} handleNewGet={handleNewGet} />
+          </Grid>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ListUsers isUserActive={false} newGet={newGet} handleNewGet={handleNewGet} />
+          <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
+            <ListUsers isUserActive={false} newGet={newGet} handleNewGet={handleNewGet} />
+          </Grid>
         </TabPanel>
       </Box>
 

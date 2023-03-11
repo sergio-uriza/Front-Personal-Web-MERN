@@ -7,7 +7,7 @@ export const getMeUser = async (accessToken: string): Promise<GetMeUserType> => 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.get(SERVER_ROUTES.ENDPOINTS.USER.GET_ME, config)
+  const res = await axiosConfig.get(SERVER_ROUTES.ENDPOINTS.USER.ME, config)
   if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }
@@ -18,7 +18,7 @@ export const getMultipleUser = async (accessToken: string | null, active: boolea
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.get(`${SERVER_ROUTES.ENDPOINTS.USER.GET_MULTIPLE_USER}/?active=${String(active)}`, config)
+  const res = await axiosConfig.get(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/?active=${String(active)}`, config)
   if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }
@@ -35,7 +35,7 @@ export const createUser = async (accessToken: string | null, user: CreateUserBod
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.USER.CREATE_USER, formData, config)
+  const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.USER.CRUD, formData, config)
   if (res.status !== 201 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }
@@ -54,7 +54,7 @@ export const updateUser = async (accessToken: string | null, idUser: string, use
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.patch(`${SERVER_ROUTES.ENDPOINTS.USER.UPDATE_USER}/${idUser}`, formData, config)
+  const res = await axiosConfig.patch(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/${idUser}`, formData, config)
   if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }
@@ -65,7 +65,7 @@ export const deleteUser = async (accessToken: string | null, idUser: string): Pr
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.delete(`${SERVER_ROUTES.ENDPOINTS.USER.DELETE_USER}/${idUser}`, config)
+  const res = await axiosConfig.delete(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/${idUser}`, config)
   if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
   return res.data
 }

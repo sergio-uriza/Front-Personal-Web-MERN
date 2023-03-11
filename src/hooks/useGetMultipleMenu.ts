@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { getMultipleMenu } from '../services/menuService'
-import { GetMultipleMenuType } from '../services/types'
+import { MenuTypeAPI } from '../services/types'
 
-type UseGetMultipleUserType = {
-  listMenus: GetMultipleMenuType[] | null
+type UseGetMultipleMenuType = {
+  listMenus: MenuTypeAPI[] | null
 }
 
-export const useGetMultipleMenu = (isMenuActive: boolean, newGet: boolean): UseGetMultipleUserType => {
-  const [listMenus, setListMenus] = useState<GetMultipleMenuType[] | null>(null)
+export const useGetMultipleMenu = (isMenuActive: boolean, newGet?: boolean): UseGetMultipleMenuType => {
+  const [listMenus, setListMenus] = useState<MenuTypeAPI[] | null>(null)
 
   useEffect(() => {
     setListMenus(null)

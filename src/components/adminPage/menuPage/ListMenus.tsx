@@ -13,8 +13,8 @@ type PropsType = {
 export const ListMenus = memo(function ListMenus ({ isMenuActive, newGet, handleNewGet }: PropsType): JSX.Element {
   const { listMenus } = useGetMultipleMenu(isMenuActive, newGet)
 
-  if (listMenus == null) return (<CircularProgress color='inherit' size={20} />)
-  if (listMenus.length === 0) return <>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></>
+  if (listMenus == null) return (<CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>)
+  if (listMenus.length === 0) return <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></span>
 
   return (
     <>

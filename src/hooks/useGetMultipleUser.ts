@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { GetMultipleUserType } from '../services/types'
+import { UserTypeAPI } from '../services/types'
 import { getMultipleUser } from '../services/userService'
 import { useAuthContext } from './context/useAuthContext'
 
 type UseGetMultipleUserType = {
-  listUsers: GetMultipleUserType[] | null
+  listUsers: UserTypeAPI[] | null
 }
 
-export const useGetMultipleUser = (isUserActive: boolean, newGet: boolean): UseGetMultipleUserType => {
-  const [listUsers, setListUsers] = useState<GetMultipleUserType[] | null>(null)
+export const useGetMultipleUser = (isUserActive: boolean, newGet?: boolean): UseGetMultipleUserType => {
+  const [listUsers, setListUsers] = useState<UserTypeAPI[] | null>(null)
   const { accessToken } = useAuthContext()
 
   useEffect(() => {

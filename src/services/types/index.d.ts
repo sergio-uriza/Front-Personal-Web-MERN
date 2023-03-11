@@ -19,6 +19,21 @@ export type MenuTypeAPI = {
   active: boolean
 }
 
+export type CourseTypeAPI = {
+  _id: string
+  title: string
+  description: string
+  url: string
+  price: number
+  score: number
+  miniature?: string
+}
+
+export type NewsletterTypeAPI = {
+  _id: string
+  email: string
+}
+
 // GENERIC MESSAGE RESPONSE TYPE
 export type MessageResponseType = {
   message: string
@@ -40,3 +55,21 @@ export type GetMultipleUserType = UserTypeAPI
 
 // MENU SERVICE TYPES
 export type GetMultipleMenuType = MenuTypeAPI
+
+// COURSE SERVICE TYPES
+export type GetMultipleCourseType = {
+  docs: CourseTypeAPI[]
+  totalDocs: number
+  limit: number
+  page: number
+  totalPages: number
+}
+
+// NEWSLETTER SERVICE TYPES
+export type GetMultipleNewsletterType = {
+  docs: NewsletterTypeAPI[]
+  totalDocs: number
+  limit: number
+  page: number
+  totalPages: number
+}
