@@ -4,25 +4,25 @@ import { getMultipleUser } from '../services/userService'
 import { useAuthContext } from './context/useAuthContext'
 
 type UseGetMultipleUserType = {
-  listUsers: UserTypeAPI[] | null
+  usersList: UserTypeAPI[] | null
 }
 
 export const useGetMultipleUser = (isUserActive: boolean, newGet?: boolean): UseGetMultipleUserType => {
-  const [listUsers, setListUsers] = useState<UserTypeAPI[] | null>(null)
+  const [usersList, setUsersList] = useState<UserTypeAPI[] | null>(null)
   const { accessToken } = useAuthContext()
 
   useEffect(() => {
-    setListUsers(null)
+    setUsersList(null)
     getMultipleUser(accessToken, isUserActive)
       .then((res) => {
-        setListUsers(res)
+        setUsersList(res)
       })
       .catch((_err) => {
-        setListUsers([])
+        setUsersList([])
       })
   }, [accessToken, isUserActive, newGet])
 
   return {
-    listUsers
+    usersList
   }
 }

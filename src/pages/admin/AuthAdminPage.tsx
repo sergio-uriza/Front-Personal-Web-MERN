@@ -1,7 +1,7 @@
 import './AuthAdminPage.scss'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 import { LoginForm } from '../../components/forms/LoginForm'
 import { IconMERN } from '../../assets/svg/IconMERN'
 import { loginAdminAuth } from '../../services/authService'

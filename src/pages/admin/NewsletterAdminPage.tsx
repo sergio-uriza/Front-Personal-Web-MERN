@@ -1,15 +1,15 @@
 import './NewsletterAdminPage.scss'
 import { useCallback, useState } from 'react'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import { TabPanel } from '../../components/shared/TabPanel'
-import DoneAllIcon from '@mui/icons-material/DoneAll'
 import { Box } from '@mui/material'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
+import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Unstable_Grid2'
 import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
-import { ListNewsletters } from '../../components/adminPage/newsletterPage/ListNewsletters'
+import DoneAllIcon from '@mui/icons-material/DoneAll'
+import { TabPanel } from '../../components/shared/TabPanel'
+import { NewslettersList } from '../../components/adminPage/newsletterPage/NewslettersList'
 
 export function NewsletterAdminPage (): JSX.Element {
   const [newGet, setNewGet] = useState<boolean>(false)
@@ -43,7 +43,7 @@ export function NewsletterAdminPage (): JSX.Element {
       <TabPanel value={0} index={0}>
         <>
           <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 14.7rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
-            <ListNewsletters page={page} handleTotalPage={handleTotalPage} order={order} newGet={newGet} handleNewGet={handleNewGet} />
+            <NewslettersList page={page} handleTotalPage={handleTotalPage} order={order} newGet={newGet} handleNewGet={handleNewGet} />
           </Grid>
           <Stack spacing={2} sx={{ alignItems: 'center', mt: '18px' }}>
             <Pagination

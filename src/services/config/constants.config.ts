@@ -20,6 +20,9 @@ export const SERVER_ROUTES = {
     COURSE: {
       CRUD: '/course'
     },
+    BLOG: {
+      CRUD: '/blog'
+    },
     NEWSLETTER: {
       CRUD: '/newsletter'
     }

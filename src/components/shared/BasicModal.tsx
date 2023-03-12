@@ -27,7 +27,7 @@ type PropsType = {
 export function BasicModal ({ show, handleClose, ModalTitle, ClassName, children }: PropsType): JSX.Element {
   return (
     <Dialog
-      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', ' .css-iz3z40-MuiDialog-container::-webkit-scrollbar': { display: 'none' } }}
       open={show}
       TransitionComponent={Transition}
       onClose={handleClose}

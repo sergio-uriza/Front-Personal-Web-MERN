@@ -3,24 +3,24 @@ import { getMultipleMenu } from '../services/menuService'
 import { MenuTypeAPI } from '../services/types'
 
 type UseGetMultipleMenuType = {
-  listMenus: MenuTypeAPI[] | null
+  menusList: MenuTypeAPI[] | null
 }
 
 export const useGetMultipleMenu = (isMenuActive: boolean, newGet?: boolean): UseGetMultipleMenuType => {
-  const [listMenus, setListMenus] = useState<MenuTypeAPI[] | null>(null)
+  const [menusList, setMenusList] = useState<MenuTypeAPI[] | null>(null)
 
   useEffect(() => {
-    setListMenus(null)
+    setMenusList(null)
     getMultipleMenu(isMenuActive)
       .then((res) => {
-        setListMenus(res)
+        setMenusList(res)
       })
       .catch((_err) => {
-        setListMenus([])
+        setMenusList([])
       })
   }, [isMenuActive, newGet])
 
   return {
-    listMenus
+    menusList
   }
 }

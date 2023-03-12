@@ -1,85 +1,65 @@
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
 import Grid from '@mui/material/Unstable_Grid2'
-import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import SendIcon from '@mui/icons-material/Send'
 import CircularProgress from '@mui/material/CircularProgress'
 import PermMediaIcon from '@mui/icons-material/PermMedia'
-import InputAdornment from '@mui/material/InputAdornment'
+import Box from '@mui/material/Box'
+import { Editor } from '@tinymce/tinymce-react'
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useFormError } from '../../../hooks/useFormError'
+import { BlogTypeAPI } from '../../../services/types'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { CourseTypeAPI } from '../../../services/types'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
-import { CourseFormType, courseSchema } from '../../../schemas/adminPage/course.schema'
-import { createCourse, updateCourse } from '../../../services/courseService'
-
-const extractPrefix = (text: string): 'https://' | 'http://' => {
-  if (text.startsWith('https://')) return 'https://'
-  return 'http://'
-}
+import { BlogFormType, blogSchema } from '../../../schemas/adminPage/blog.schema'
+import { createBlog, updateBlog } from '../../../services/blogService'
 
 const extractWithoutPrefix = (text: string): string => {
-  if (text.startsWith('https://')) return text.substring(8)
-  return text.substring(7)
+  return text.substring(1)
 }
 
-const initialValues = (course?: CourseTypeAPI): CourseFormType & { prefix: 'https://' | 'http://', miniature?: File } => {
+const initialValues = (blog?: BlogTypeAPI): BlogFormType & { prefix: '/', miniature?: File } => {
   return {
-    miniatureURL: course?.miniature ?? '',
+    miniatureURL: blog?.miniature ?? '',
     miniature: undefined,
-    title: course?.title ?? '',
-    description: course?.description ?? '',
-    price: course?.price ?? 0,
-    score: course?.score ?? 0,
-    url: course?.url != null ? extractWithoutPrefix(course.url) : '',
-    prefix: course?.url != null ? extractPrefix(course.url) : 'https://'
+    title: blog?.title ?? '',
+    prefix: '/',
+    path: blog?.path != null ? extractWithoutPrefix(blog.path) : '',
+    content: blog?.content ?? ''
   }
 }
-
-const prefixOptions = [
-  {
-    value: 'https://',
-    label: 'https://'
-  },
-  {
-    value: 'http://',
-    label: 'http://'
-  }
-]
 
 type PropsType = {
   handleCloseModal: () => void
   handleNewGet: () => void
-  course?: CourseTypeAPI
+  blog?: BlogTypeAPI
 }
 
-export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsType): JSX.Element {
+export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
 
   const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors, setFieldValue } = useFormik({
-    initialValues: initialValues(course),
-    validationSchema: courseSchema,
-    onSubmit: async ({ title, description, price, score, url, prefix, miniature }, { resetForm }) => {
+    initialValues: initialValues(blog),
+    validationSchema: blogSchema,
+    onSubmit: async ({ title, path, prefix, content, miniature }, { resetForm }) => {
       try {
         clearFormError()
-        if (course == null) {
-          await createCourse(
+        if (blog == null) {
+          await createBlog(
             accessToken,
-            { title, description, price, score: Number(score.toFixed(1)), url: prefix.concat(url) },
+            { title, content, path: prefix.concat(path) },
             miniature
           )
         } else {
-          await updateCourse(
+          await updateBlog(
             accessToken,
-            course._id,
-            { title, description, price, score: Number(score.toFixed(1)), url: (prefix.concat(url) !== course.url ? prefix.concat(url) : undefined) },
+            blog._id,
+            { title, content: (content !== blog.content ? content : undefined), path: (prefix.concat(path) !== blog.path ? prefix.concat(path) : undefined) },
             miniature
           )
         }
@@ -125,7 +105,7 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
   const getRouteMiniature = (): string | undefined => {
     if (values.miniature != null) {
       return values.miniatureURL
-    } else if (values.miniatureURL !== '') {
+    } else if (values.miniatureURL != null && values.miniatureURL !== '') {
       return `${SERVER_ROUTES.BASE_PATH}/${values.miniatureURL}`
     }
     return undefined
@@ -136,12 +116,11 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
       <Grid container rowSpacing={{ xs: 1, sm: 2 }} columnSpacing={3}>
         <Grid xs={12} sm={12} display='flex' justifyContent='center'>
           <div {...getRootProps()}>
-            <input {...getInputProps()} name='miniatureURL' />
+            <input {...getInputProps()} />
             <Avatar
               variant='rounded'
-              style={{ borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null) ? 'red' : 'none' }}
               sx={{ fontSize: '53px', m: 1, width: 100, height: 100, border: 'dotted', cursor: 'pointer', '&:hover': { borderColor: '#bdbdbd' } }}
-              alt='COURSE'
+              alt='BLOG'
               src={getRouteMiniature()}
             >
               {values.miniatureURL === '' ? <PermMediaIcon sx={{ fontSize: '55px' }} /> : null}
@@ -165,94 +144,48 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
             fullWidth
           />
         </Grid>
-        <Grid xs={12} sm={12}>
-          <TextField
-            name='description'
-            id='description'
-            label='Description'
-            multiline
-            placeholder='What is it about?'
-            margin='none'
-            value={values.description}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={(touched.description === true) && Boolean(errors.description)}
-            helperText={(values.description !== '') && (touched.description === true) && errors.description}
-            size='small'
-            rows={3}
-            required
-            fullWidth
-          />
-        </Grid>
         <Grid xs={12} sm={12} sx={{ display: 'flex' }}>
           <TextField
             name='prefix'
             id='prefix'
-            select
             margin='none'
-            defaultValue={values.prefix}
+            // defaultValue={values.prefix}
             value={values.prefix}
-            onChange={handleChange}
             size='small'
-            sx={{ minWidth: '70px', '> div': { bgcolor: 'rgb(0 0 0 / 12%)', textAlign: 'center' } }}
+            sx={{ width: '2.2rem', minWidth: '35px', '> div': { bgcolor: 'rgb(0 0 0 / 12%)', textAlign: 'center' } }}
+            InputProps={{ readOnly: true }}
             required
-          >
-            {prefixOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          />
           <TextField
-            name='url'
-            id='url'
-            label='URL'
+            name='path'
+            id='path'
+            label='Path'
             margin='none'
-            value={values.url}
+            value={values.path}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={(touched.url === true) && Boolean(errors.url)}
-            helperText={(values.url !== '') && (touched.url === true) && errors.url}
+            error={(touched.path === true) && Boolean(errors.path)}
+            helperText={(values.path !== '') && (touched.path === true) && errors.path}
             size='small'
             sx={{ flexGrow: '1' }}
             required
           />
         </Grid>
-        <Grid xs={12} sm={6}>
-          <TextField
-            name='price'
-            id='price'
-            type='number'
-            label='price'
-            margin='none'
-            value={values.price}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={(touched.price === true) && Boolean(errors.price)}
-            helperText={(values.price !== 0) && (touched.price === true) && errors.price}
-            size='small'
-            required
-            fullWidth
-            InputProps={{
-              startAdornment: <InputAdornment position="start">COL $</InputAdornment>
+        <Grid xs={12} sm={12}>
+          <Editor
+            apiKey='qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc'
+            initialValue={blog?.content}
+            init={{
+              height: 400,
+              menubar: false,
+              placeholder: 'What do you want to share with us?...',
+              plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks fullscreen insertdatetime media table code help wordcount',
+              toolbar: 'undo redo | bold italic underline forecolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | lineheight backcolor | ' +
+              'fontsize fontfamily | paste pastetext | subscript superscript hr | removeformat help',
+              toolbar_mode: 'scrolling'
             }}
-          />
-        </Grid>
-        <Grid xs={12} sm={6}>
-          <TextField
-            name='score'
-            id='score'
-            type='number'
-            label='score'
-            margin='none'
-            value={values.score}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={(touched.score === true) && Boolean(errors.score)}
-            helperText={(values.score !== 0) && (touched.score === true) && errors.score}
-            size='small'
-            required
-            fullWidth
+            onChange={(e) => { void setFieldValue('content', e.target.getContent()) }}
           />
         </Grid>
       </Grid>

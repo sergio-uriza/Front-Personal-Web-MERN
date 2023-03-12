@@ -29,6 +29,19 @@ export type CourseTypeAPI = {
   miniature?: string
 }
 
+export type BlogTypeAPI = {
+  _id: string
+  title: string
+  content: string
+  path: string
+  user?: {
+    firstname: string
+    lastname: string
+  } | null
+  createdAt: Date
+  miniature?: string
+}
+
 export type NewsletterTypeAPI = {
   _id: string
   email: string
@@ -59,6 +72,15 @@ export type GetMultipleMenuType = MenuTypeAPI
 // COURSE SERVICE TYPES
 export type GetMultipleCourseType = {
   docs: CourseTypeAPI[]
+  totalDocs: number
+  limit: number
+  page: number
+  totalPages: number
+}
+
+// BLOG SERVICE TYPES
+export type GetMultipleBlogType = {
+  docs: BlogTypeAPI[]
   totalDocs: number
   limit: number
   page: number

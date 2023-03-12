@@ -114,7 +114,7 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
   const getRouteAvatar = (): string | undefined => {
     if (values.avatar != null) {
       return values.avatarURL
-    } else if (values.avatarURL !== '') {
+    } else if (values.avatarURL != null && values.avatarURL !== '') {
       return `${SERVER_ROUTES.BASE_PATH}/${values.avatarURL}`
     }
     return undefined

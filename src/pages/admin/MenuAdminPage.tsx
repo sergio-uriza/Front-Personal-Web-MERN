@@ -1,16 +1,16 @@
 import './MenuAdminPage.scss'
 import { useState } from 'react'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
 import { Box } from '@mui/material'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
 import Button from '@mui/material/Button'
-import { TabPanel } from '../../components/shared/TabPanel'
+import Grid from '@mui/material/Unstable_Grid2'
 import WebAssetIcon from '@mui/icons-material/WebAsset'
 import WebAssetOffIcon from '@mui/icons-material/WebAssetOff'
-import Grid from '@mui/material/Unstable_Grid2'
+import { TabPanel } from '../../components/shared/TabPanel'
 import { BasicModal } from '../../components/shared/BasicModal'
 import { useModalComponent } from '../../hooks/useModalComponent'
-import { ListMenus } from '../../components/adminPage/menuPage/ListMenus'
+import { MenusList } from '../../components/adminPage/menuPage/MenusList'
 import { MenuForm } from '../../components/adminPage/menuPage/MenuForm'
 
 export function MenuAdminPage (): JSX.Element {
@@ -44,12 +44,12 @@ export function MenuAdminPage (): JSX.Element {
         </Box>
         <TabPanel value={value} index={0}>
           <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
-            <ListMenus isMenuActive={true} newGet={newGet} handleNewGet={handleNewGet} />
+            <MenusList isMenuActive={true} newGet={newGet} handleNewGet={handleNewGet} />
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 11.6rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
-            <ListMenus isMenuActive={false} newGet={newGet} handleNewGet={handleNewGet} />
+            <MenusList isMenuActive={false} newGet={newGet} handleNewGet={handleNewGet} />
           </Grid>
         </TabPanel>
       </Box>

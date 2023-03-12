@@ -15,7 +15,7 @@ export const menuSchema = Yup.object({
   path: Yup
     .string()
     .trim()
-    .matches(/^[\w-@:+.?&//=]+$/, 'Invalid characters')
+    .matches(/^[\w-@:;+.?&/=$!*]+$/, 'Invalid characters')
     .min(3, 'Minimum 3 characters length')
     .required('Path is required')
 })

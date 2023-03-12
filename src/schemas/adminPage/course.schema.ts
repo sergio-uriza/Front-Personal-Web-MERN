@@ -28,8 +28,8 @@ export const courseSchema = Yup.object({
   url: Yup
     .string()
     .trim()
-    .matches(/^[\w-@:+.?&//=]+$/, 'Invalid characters')
-    .min(8, 'Minimum 3 characters length')
+    .matches(/^[\w-@:;)(+.?&/=$!*']+$/, 'Invalid characters')
+    .min(5, 'Minimum 5 characters length')
     .required('URL is required')
 })
 
