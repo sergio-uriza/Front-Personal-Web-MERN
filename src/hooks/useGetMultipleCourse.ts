@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react'
 import { getMultipleCourse } from '../services/courseService'
-import { CourseTypeAPI } from '../services/types'
+import { CourseTypeAPI } from '../services/types/api-res'
 
 type UseGetMultipleCourseType = {
   coursesList: CourseTypeAPI[] | null
 }
 
-export const useGetMultipleCourse = (page: number, handleTotalPage: (value: number) => void, newGet?: boolean): UseGetMultipleCourseType => {
+export const useGetMultipleCourse = (
+  limit: number,
+  page: number,
+  handleTotalPages?: (value: number) => void,
+  newGet?: boolean
+): UseGetMultipleCourseType => {
   const [coursesList, setCoursesList] = useState<CourseTypeAPI[] | null>(null)
 
   useEffect(() => {
     setCoursesList(null)
-    getMultipleCourse(10, page)
+    getMultipleCourse(limit, page)
       .then((res) => {
         setCoursesList(res.docs)
-        handleTotalPage(res.totalPages)
+        if (handleTotalPages != null) handleTotalPages(res.totalPages)
       })
       .catch((_err) => {
         setCoursesList([])
-        handleTotalPage(1)
+        if (handleTotalPages != null) handleTotalPages(1)
       })
-  }, [handleTotalPage, newGet, page])
+  }, [handleTotalPages, limit, newGet, page])
 
   return {
     coursesList

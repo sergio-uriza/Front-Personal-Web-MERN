@@ -19,7 +19,7 @@ export const useFormError = (): UseFormErrorType => {
       if (err.response.status === 401) {
         setFormError('Access Denied, Non-existent user or no credentials')
       } else if (err.response.status === 403) {
-        setFormError('Access Denied, inactive user or without permission to access')
+        setFormError('Unauthorized, inactive user or without permission to access')
       } else if (err.response.status >= 400 && err.response.status < 500) {
         setFormError('Invalid Data, please check your data and try again')
       } else {

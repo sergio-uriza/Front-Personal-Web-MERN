@@ -7,29 +7,34 @@ export const courseSchema = Yup.object({
   title: Yup
     .string()
     .trim()
-    .min(8, 'Minimum 8 characters length')
+    .matches(/^[a-zA-Z0-9À-ÿ?¿!¡:;)(+.,$'"\-\s]+$/, 'Invalid characters')
+    .min(8, 'Min 8 characters')
+    .max(60, 'Max 60 characters')
     .required('Title is required'),
   description: Yup
     .string()
     .trim()
-    .min(15, 'Minimum 15 characters length')
+    .matches(/^[a-zA-Z0-9À-ÿ?¿!¡:;)(+.,$'"\-\s]+$/, 'Invalid characters')
+    .min(18, 'Min 8 characters')
+    .max(160, 'Max 160 characters')
     .required('Description is required'),
   price: Yup
     .number()
     .integer('Integer number')
-    .positive('Positive value')
+    .min(0, 'Positive number')
     .max(5000000, 'Number too high')
     .required('Price is required'),
   score: Yup
     .number()
-    .min(0, 'Minimum value is 0')
-    .max(5, 'Maximum value is 5')
+    .moreThan(0, 'More than 0')
+    .max(5, 'Max value 5')
     .required('Score is required'),
   url: Yup
     .string()
     .trim()
     .matches(/^[\w-@:;)(+.?&/=$!*']+$/, 'Invalid characters')
-    .min(5, 'Minimum 5 characters length')
+    .min(10, 'Min 10 characters')
+    .max(500, 'Max 500 characteres')
     .required('URL is required')
 })
 

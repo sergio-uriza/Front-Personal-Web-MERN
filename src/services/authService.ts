@@ -1,6 +1,6 @@
 import { axiosConfig } from './config/axios.config'
 import { SERVER_ROUTES } from './config/constants.config'
-import { LoginUserAuthType, MessageResponseType, RefreshAccTokenAuthType } from './types'
+import { LoginUserAuthType, MessageResponseType, RefreshAccTokenAuthType } from './types/api-res'
 
 export const registerUserAuth = async (
   firstname: string,
@@ -10,7 +10,9 @@ export const registerUserAuth = async (
 ): Promise<MessageResponseType> => {
   const body = { firstname, lastname, email, password }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.REGISTER_USER, body)
-  if (res.status !== 201 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 201 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
@@ -20,7 +22,9 @@ export const loginUserAuth = async (
 ): Promise<LoginUserAuthType> => {
   const body = { email, password }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.LOGIN_USER, body)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
@@ -30,7 +34,9 @@ export const loginAdminAuth = async (
 ): Promise<LoginUserAuthType> => {
   const body = { email, password }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.LOGIN_ADMIN, body)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
@@ -39,6 +45,8 @@ export const refreshAccTokenAuth = async (
 ): Promise<RefreshAccTokenAuthType> => {
   const body = { refreshToken: refToken }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.AUTH.REFRESH_TOKEN, body)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }

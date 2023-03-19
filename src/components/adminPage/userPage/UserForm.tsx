@@ -8,17 +8,19 @@ import Avatar from '@mui/material/Avatar'
 import SendIcon from '@mui/icons-material/Send'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useFormik } from 'formik'
-import { UserRole } from '../../../enums/userRole.enum'
-import { UserFormType, createUserSchema, updateUserSchema } from '../../../schemas/adminPage/user.schema'
-import { useFormError } from '../../../hooks/useFormError'
-import { useDropzone } from 'react-dropzone'
 import { useCallback } from 'react'
+import { UserTypeAPI } from '../../../services/types/api-res'
+import { UserRole } from '../../../enums/userRole.enum'
+import { useFormError } from '../../../hooks/useFormError'
+import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
 import { createUser, updateUser } from '../../../services/userService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { UserTypeAPI } from '../../../services/types'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { UserFormType, createUserSchema, updateUserSchema } from '../../../schemas/adminPage/user.schema'
 
-const initialValues = (user?: UserTypeAPI): UserFormType & { avatarURL: string, avatar?: File } => {
+const initialValues = (
+  user?: UserTypeAPI
+): UserFormType & { avatarURL: string, avatar?: File } => {
   return {
     avatarURL: user?.avatar ?? '',
     avatar: undefined,
@@ -52,7 +54,16 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
 
-  const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors, setFieldValue } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+    setFieldValue
+  } = useFormik({
     initialValues: initialValues(user),
     validationSchema: user == null ? createUserSchema : updateUserSchema,
     onSubmit: async ({ firstname, lastname, password, email, role, avatar }, { resetForm }) => {
@@ -88,28 +99,7 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
     void setFieldValue('avatar', file)
   }, [])
 
-  const onDropAccepted = useCallback((): void => {
-    console.log('Archivo Cargado Correctamente')
-  }, [])
-
-  const onDropRejected = useCallback((): void => {
-    console.log('Archivo No Admitido')
-  }, [])
-
-  const onError = useCallback((): void => {
-    console.log('Ocurrio Algun Error')
-  }, [])
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    onDropAccepted,
-    onDropRejected,
-    onError,
-    accept: { 'image/png': ['.png'], 'image/jpg': ['.jpeg', '.jpg'] },
-    multiple: false,
-    maxFiles: 1,
-    maxSize: 600000
-  })
+  const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
   const getRouteAvatar = (): string | undefined => {
     if (values.avatar != null) {
@@ -127,7 +117,14 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <Avatar
-              sx={{ m: 1, width: 100, height: 100, border: 'dotted', cursor: 'pointer', '&:hover': { borderColor: '#bdbdbd' } }}
+              sx={{
+                m: 1,
+                width: 140,
+                height: 140,
+                border: 'dotted',
+                cursor: 'pointer',
+                '&:hover': { borderColor: '#bdbdbd' }
+              }}
               src={getRouteAvatar()}
             />
           </div>
@@ -250,7 +247,10 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
           variant='contained'
           sx={{ mt: 3, textTransform: 'capitalize', minWidth: '140px' }}
           disabled={isSubmitting}
-          endIcon={isSubmitting ? <CircularProgress color='inherit' size='1rem'/> : <SendIcon sx={{ fontSize: '15px !important' }} />}
+          endIcon={isSubmitting
+            ? <CircularProgress color='inherit' size='1rem' />
+            : <SendIcon sx={{ fontSize: '15px !important' }} />
+          }
         >
           { isSubmitting
             ? <span>Sending</span>
@@ -259,10 +259,12 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
         </Button>
       </Box>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}
+      >
         { formError }
       </Typography>
-
     </Box>
   )
 }

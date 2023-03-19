@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { getMultipleMenu } from '../services/menuService'
-import { MenuTypeAPI } from '../services/types'
+import { MenuTypeAPI } from '../services/types/api-res'
 
 type UseGetMultipleMenuType = {
   menusList: MenuTypeAPI[] | null
 }
 
-export const useGetMultipleMenu = (isMenuActive: boolean, newGet?: boolean): UseGetMultipleMenuType => {
+export const useGetMultipleMenu = (
+  isMenuActive: boolean,
+  newGet?: boolean
+): UseGetMultipleMenuType => {
   const [menusList, setMenusList] = useState<MenuTypeAPI[] | null>(null)
 
   useEffect(() => {

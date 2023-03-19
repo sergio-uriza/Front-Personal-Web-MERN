@@ -4,8 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import ListIcon from '@mui/icons-material/List'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { ButtonLogout } from '../logout/ButtonLogout'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { ProfileButton } from '../shared/ProfileButton'
 
 type PropsType = {
   drawerWidth: number
@@ -18,8 +18,8 @@ export function UserAppBar ({
 }: PropsType): JSX.Element {
   return (
     <AppBar
-      className="userappbar-header"
-      position="fixed"
+      className='userappbar-header'
+      position='fixed'
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` }
@@ -27,25 +27,25 @@ export function UserAppBar ({
     >
       <Toolbar>
         <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
+          color='inherit'
+          aria-label='open drawer'
+          edge='start'
           onClick={handleDrawerToggle}
           sx={{ mr: 2, display: { sm: 'none' } }}
         >
           <ListIcon />
         </IconButton>
         <Typography
-          variant="h6"
+          variant='h6'
           noWrap
-          component="div"
+          component='div'
           sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
         >
           <SettingsIcon sx={{ mr: 1 }} />
           USER PANEL
         </Typography>
 
-        <ButtonLogout redirectTo="/user/auth" />
+        <ProfileButton redirectTo='/user/auth' isInProfile={true} />
       </Toolbar>
     </AppBar>
   )

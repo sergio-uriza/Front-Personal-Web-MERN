@@ -11,10 +11,10 @@ import PermMediaIcon from '@mui/icons-material/PermMedia'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
+import { CourseTypeAPI } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
+import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { CourseTypeAPI } from '../../../services/types'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { CourseFormType, courseSchema } from '../../../schemas/adminPage/course.schema'
 import { createCourse, updateCourse } from '../../../services/courseService'
@@ -29,7 +29,9 @@ const extractWithoutPrefix = (text: string): string => {
   return text.substring(7)
 }
 
-const initialValues = (course?: CourseTypeAPI): CourseFormType & { prefix: 'https://' | 'http://', miniature?: File } => {
+const initialValues = (
+  course?: CourseTypeAPI
+): CourseFormType & { prefix: 'https://' | 'http://', miniature?: File } => {
   return {
     miniatureURL: course?.miniature ?? '',
     miniature: undefined,
@@ -63,7 +65,16 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
 
-  const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors, setFieldValue } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+    setFieldValue
+  } = useFormik({
     initialValues: initialValues(course),
     validationSchema: courseSchema,
     onSubmit: async ({ title, description, price, score, url, prefix, miniature }, { resetForm }) => {
@@ -72,14 +83,26 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
         if (course == null) {
           await createCourse(
             accessToken,
-            { title, description, price, score: Number(score.toFixed(1)), url: prefix.concat(url) },
+            {
+              title,
+              description,
+              price,
+              score: Number(score.toFixed(1)),
+              url: prefix.concat(url)
+            },
             miniature
           )
         } else {
           await updateCourse(
             accessToken,
             course._id,
-            { title, description, price, score: Number(score.toFixed(1)), url: (prefix.concat(url) !== course.url ? prefix.concat(url) : undefined) },
+            {
+              title,
+              description,
+              price,
+              score: Number(score.toFixed(1)),
+              url: (prefix.concat(url) !== course.url ? prefix.concat(url) : undefined)
+            },
             miniature
           )
         }
@@ -99,28 +122,7 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
     void setFieldValue('miniature', file)
   }, [])
 
-  const onDropAccepted = useCallback((): void => {
-    console.log('Archivo Cargado Correctamente')
-  }, [])
-
-  const onDropRejected = useCallback((): void => {
-    console.log('Archivo No Admitido')
-  }, [])
-
-  const onError = useCallback((): void => {
-    console.log('Ocurrio Algun Error')
-  }, [])
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    onDropAccepted,
-    onDropRejected,
-    onError,
-    accept: { 'image/png': ['.png'], 'image/jpg': ['.jpeg', '.jpg'] },
-    multiple: false,
-    maxFiles: 1,
-    maxSize: 600000
-  })
+  const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
   const getRouteMiniature = (): string | undefined => {
     if (values.miniature != null) {
@@ -139,8 +141,20 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
             <input {...getInputProps()} name='miniatureURL' />
             <Avatar
               variant='rounded'
-              style={{ borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null) ? 'red' : 'none' }}
-              sx={{ fontSize: '53px', m: 1, width: 100, height: 100, border: 'dotted', cursor: 'pointer', '&:hover': { borderColor: '#bdbdbd' } }}
+              style={{
+                borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null)
+                  ? 'red'
+                  : 'none'
+              }}
+              sx={{
+                fontSize: '53px',
+                m: 1,
+                width: 200,
+                height: 117,
+                border: 'dotted',
+                cursor: 'pointer',
+                '&:hover': { borderColor: '#bdbdbd' }
+              }}
               alt='COURSE'
               src={getRouteMiniature()}
             >
@@ -263,7 +277,10 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
           variant='contained'
           sx={{ mt: 3, textTransform: 'capitalize', minWidth: '140px' }}
           disabled={isSubmitting}
-          endIcon={isSubmitting ? <CircularProgress color='inherit' size='1rem'/> : <SendIcon sx={{ fontSize: '15px !important' }} />}
+          endIcon={isSubmitting
+            ? <CircularProgress color='inherit' size='1rem'/>
+            : <SendIcon sx={{ fontSize: '15px !important' }} />
+          }
         >
           { isSubmitting
             ? <span>Sending</span>
@@ -272,7 +289,10 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
         </Button>
       </Box>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}
+      >
         { formError }
       </Typography>
 

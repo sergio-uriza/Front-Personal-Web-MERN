@@ -1,0 +1,15 @@
+.bloguserpage-tab {
+  &.css-1p1zcqx-MuiButtonBase-root-MuiTab-root {
+    min-width: 40px;
+  }
+}
+
+.bloguserpage-modalbutton {
+  &.css-sghohy-MuiButtonBase-root-MuiButton-root {
+    position: absolute;
+    right: 0px;
+    top: 18px;
+    z-index: 1;
+    text-transform: capitalize;
+  }
+}

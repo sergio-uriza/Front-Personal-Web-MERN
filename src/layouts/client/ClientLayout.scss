@@ -1,0 +1,11 @@
+@use 'src/sass/colors' as *;
+
+.clientlayout-body {
+  color: $text-light;
+  min-height: 100vh;
+  background-color: $background-dark-web;
+}
+
+.clientlayout-footer {
+  border-top: 3px solid $primary;
+}

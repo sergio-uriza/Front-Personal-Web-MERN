@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
+import PersonIcon from '@mui/icons-material/Person'
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -21,8 +22,9 @@ import { useFormError } from '../../hooks/useFormError'
 import { useState } from 'react'
 import { useAuthContext } from '../../hooks/context/useAuthContext'
 import { setAccTokenLocalStorage, setRefTokenLocalStorage } from '../../utils/localStorage'
-import { LoginUserAuthType } from '../../services/types'
+import { LoginUserAuthType } from '../../services/types/api-res'
 import { useNavigate } from 'react-router-dom'
+import { loginAdminAuth, loginUserAuth } from '../../services/authService'
 
 const initialValues: LoginFormType = {
   email: '',
@@ -30,26 +32,47 @@ const initialValues: LoginFormType = {
 }
 
 type PropsType = {
-  fetchLogin: (email: string, password: string) => Promise<LoginUserAuthType>
+  isAdmin: boolean
 }
 
-export function LoginForm ({ fetchLogin }: PropsType): JSX.Element {
+export function LoginForm ({ isAdmin }: PropsType): JSX.Element {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const { formError, clearFormError, handleFormError } = useFormError()
   const { loginAuthHandler } = useAuthContext()
   const navigate = useNavigate()
 
   const handleClickShowPassword = (): void => { setShowPassword((prev) => !prev) }
-  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>): void => { e.preventDefault() }
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault()
+  }
   const redirectToHome = (): void => { navigate('/') }
+  const handleLoginFetch = async (
+    isAdministrator: boolean,
+    email: string,
+    password: string
+  ): Promise<LoginUserAuthType> => {
+    if (isAdministrator) {
+      return await loginAdminAuth(email, password)
+    } else {
+      return await loginUserAuth(email, password)
+    }
+  }
 
-  const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    values,
+    touched,
+    errors
+  } = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async ({ email, password }, { resetForm }) => {
       try {
         clearFormError()
-        const { accessToken, refreshToken } = await fetchLogin(email, password)
+        const { accessToken, refreshToken } = await handleLoginFetch(isAdmin, email, password)
         await loginAuthHandler(accessToken)
         setAccTokenLocalStorage(accessToken)
         setRefTokenLocalStorage(refreshToken)
@@ -65,7 +88,10 @@ export function LoginForm ({ fetchLogin }: PropsType): JSX.Element {
       <Grid container spacing={2}>
         <Grid xs={12} sm={12} display='flex' justifyContent='center'>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: 55, height: 55 }}>
-            <ManageAccountsOutlinedIcon fontSize='large' />
+            {isAdmin
+              ? <ManageAccountsOutlinedIcon fontSize='large' />
+              : <PersonIcon fontSize='large' />
+            }
           </Avatar>
         </Grid>
         <Grid xs={12}>
@@ -134,23 +160,36 @@ export function LoginForm ({ fetchLogin }: PropsType): JSX.Element {
         fullWidth
       >
         { isSubmitting
-          ? (<> <CircularProgress color='inherit' size='1rem' sx={{ mx: 1 }}/> <span>Sending...</span> </>)
-          : (<span>Sign In</span>)
+          ? (
+              <>
+                <CircularProgress color='inherit' size='1rem' sx={{ mx: 1 }}/>
+                <span>Sending...</span>
+              </>
+            )
+          : (
+              <span>Sign In</span>
+            )
         }
       </Button>
 
       <Grid container justifyContent='flex-end'>
         <Grid textAlign='end'>
-          <Link onClick={redirectToHome} variant='body2' sx={{ fontStyle: 'italic', '&:hover': { cursor: 'pointer' } }}>
+          <Link
+            onClick={redirectToHome}
+            variant='body2'
+            sx={{ fontStyle: 'italic', '&:hover': { cursor: 'pointer' } }}
+          >
             Just visiting? Return to home page
           </Link>
         </Grid>
       </Grid>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', mt: '0.7rem' }} >
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', mt: '0.7rem' }}
+      >
         { formError }
       </Typography>
-
     </Box>
   )
 }

@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { TabPanel } from '../../components/shared/TabPanel'
 import { RegisterForm } from '../../components/forms/RegisterForm'
 import { LoginForm } from '../../components/forms/LoginForm'
-import { loginUserAuth } from '../../services/authService'
 import { IconMERN } from '../../assets/svg/IconMERN'
 
 export function AuthUserPage (): JSX.Element {
@@ -25,13 +24,13 @@ export function AuthUserPage (): JSX.Element {
         <IconMERN className='logo'/>
         <Box className='box-panel' >
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label='primary tabs' >
+            <Tabs value={value} onChange={handleChange} >
               <Tab className='tab' label='Sign in' />
               <Tab className='tab' label='Sign up' />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <LoginForm fetchLogin={loginUserAuth} />
+            <LoginForm isAdmin={false} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <RegisterForm setToLogin={setToLogin} />

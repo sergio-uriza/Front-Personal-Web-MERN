@@ -4,7 +4,9 @@ export const menuSchema = Yup.object({
   title: Yup
     .string()
     .trim()
-    .min(3, 'Minimum 3 characters length')
+    .matches(/^[a-zA-Z0-9À-ÿ?¿!¡\s]+$/, 'Invalid characters')
+    .min(3, 'Min 3 characters')
+    .max(18, 'Max 18 characters')
     .required('Title is required'),
   order: Yup
     .number()
@@ -16,7 +18,8 @@ export const menuSchema = Yup.object({
     .string()
     .trim()
     .matches(/^[\w-@:;+.?&/=$!*]+$/, 'Invalid characters')
-    .min(3, 'Minimum 3 characters length')
+    .min(3, 'Min 3 characters')
+    .max(160, 'Max 160 characters')
     .required('Path is required')
 })
 

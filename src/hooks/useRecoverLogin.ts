@@ -9,7 +9,11 @@ type UseRecoverLoginType = {
 
 export const useRecoverLogin = (): UseRecoverLoginType => {
   const [isRecovering, setIsRecovering] = useState<boolean>(true)
-  const { loginAuthHandler, logoutAuthHandler, reloginAuthHandler } = useAuthContext()
+  const {
+    loginAuthHandler,
+    logoutAuthHandler,
+    reloginAuthHandler
+  } = useAuthContext()
 
   useEffect(() => {
     const accToken = getAccTokenLocalStorage()

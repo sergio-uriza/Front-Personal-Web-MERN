@@ -1,0 +1,63 @@
+@use 'src/sass/colors' as *;
+
+.clientnavbar-temporary {
+  div {
+    color: $text-light;
+  }
+
+  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+    background-color: $background-dark-web;
+    border-right: 1px solid gray;
+  }
+
+  // ELEMENTS LIST
+  .clientnavbar-toolbar {
+    justify-content: center;
+
+    &.css-hyum1k-MuiToolbar-root {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+
+  .clientnavbar-list {
+    a span {
+      text-align: center;
+    }
+
+    .int-link {
+      &:hover,
+      &.Mui-selected,
+      &.Mui-selected:hover {
+        background-color: $primary-hover;
+      }
+    }
+
+    .ext-link {
+      &:hover,
+      &.Mui-selected,
+      &.Mui-selected:hover {
+        opacity: 0.7;
+        span {
+          color: $primary-hover;
+        }
+      }
+    }
+  }
+
+  .clientnavbar-social {
+    text-align: center;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 600px) {
+  .clientnavbar-temporary {
+    .clientnavbar-social {
+      display: none;
+    }
+  }
+}

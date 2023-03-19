@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography'
 import SendIcon from '@mui/icons-material/Send'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useFormik } from 'formik'
+import { MenuTypeAPI } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { MenuTypeAPI } from '../../../services/types'
 import { MenuFormType, menuSchema } from '../../../schemas/adminPage/menu.schema'
 import { createMenu, updateMenu } from '../../../services/menuService'
 
@@ -25,7 +25,9 @@ const extractWithoutPrefix = (text: string): string => {
   return text.substring(1)
 }
 
-const initialValues = (menu?: MenuTypeAPI): MenuFormType & { prefix: 'https://' | 'http://' | '/' } => {
+const initialValues = (
+  menu?: MenuTypeAPI
+): MenuFormType & { prefix: 'https://' | 'http://' | '/' } => {
   return {
     title: menu?.title ?? '',
     order: menu?.order ?? 0,
@@ -59,7 +61,15 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
 
-  const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    values,
+    touched,
+    errors
+  } = useFormik({
     initialValues: initialValues(menu),
     validationSchema: menuSchema,
     onSubmit: async ({ title, order, path, prefix }, { resetForm }) => {
@@ -74,7 +84,11 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
           await updateMenu(
             accessToken,
             menu._id,
-            { title, order: (order !== menu.order ? order : undefined), path: (prefix.concat(path) !== menu.path ? prefix.concat(path) : undefined) }
+            {
+              title,
+              order: (order !== menu.order ? order : undefined),
+              path: (prefix.concat(path) !== menu.path ? prefix.concat(path) : undefined)
+            }
           )
         }
         resetForm()
@@ -166,7 +180,10 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
           variant='contained'
           sx={{ mt: 3, textTransform: 'capitalize', minWidth: '140px' }}
           disabled={isSubmitting}
-          endIcon={isSubmitting ? <CircularProgress color='inherit' size='1rem'/> : <SendIcon sx={{ fontSize: '15px !important' }} />}
+          endIcon={isSubmitting
+            ? <CircularProgress color='inherit' size='1rem'/>
+            : <SendIcon sx={{ fontSize: '15px !important' }} />
+          }
         >
           { isSubmitting
             ? <span>Sending</span>
@@ -175,7 +192,10 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
         </Button>
       </Box>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}
+      >
         { formError }
       </Typography>
 

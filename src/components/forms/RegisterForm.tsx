@@ -35,7 +35,16 @@ export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { showModal, handleOpenModal, handleCloseModal } = useModalComponent()
 
-  const { handleSubmit, handleChange, handleBlur, setFieldValue, isSubmitting, values, touched, errors } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    isSubmitting,
+    values,
+    touched,
+    errors
+  } = useFormik({
     initialValues,
     validationSchema: registerSchema,
     onSubmit: async ({ firstname, lastname, email, password }, { resetForm }) => {
@@ -180,8 +189,15 @@ export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
         fullWidth
       >
         { isSubmitting
-          ? (<> <CircularProgress color='inherit' size='1rem' sx={{ mx: 1 }}/> <span>Sending...</span> </>)
-          : (<span>Sign In</span>)
+          ? (
+              <>
+                <CircularProgress color='inherit' size='1rem' sx={{ mx: 1 }}/>
+                <span>Sending...</span>
+              </>
+            )
+          : (
+              <span>Sign In</span>
+            )
         }
       </Button>
 
@@ -198,7 +214,10 @@ export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
         </Grid>
       </Grid>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', mt: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', mt: '0.7rem' }}
+      >
         { formError }
       </Typography>
 

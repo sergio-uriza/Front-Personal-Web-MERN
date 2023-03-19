@@ -12,7 +12,9 @@ export const SERVER_ROUTES = {
     },
     USER: {
       CRUD: '/user',
-      ME: '/user/me'
+      MY: {
+        CRUD: '/user/my'
+      }
     },
     MENU: {
       CRUD: '/menu'
@@ -21,7 +23,10 @@ export const SERVER_ROUTES = {
       CRUD: '/course'
     },
     BLOG: {
-      CRUD: '/blog'
+      CRUD: '/blog',
+      MY: {
+        CRUD: '/blog/my'
+      }
     },
     NEWSLETTER: {
       CRUD: '/newsletter'

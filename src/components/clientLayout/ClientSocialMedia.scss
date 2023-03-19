@@ -1,0 +1,33 @@
+@use 'src/sass/colors' as *;
+
+.socialmedia-youtube {
+  color: #cd201f !important;
+  padding: 0.2rem !important;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.socialmedia-twitter {
+  color: #1da1f2 !important;
+  padding: 0.2rem !important;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.socialmedia-facebook {
+  color: #3b5998 !important;
+  padding: 0.2rem !important;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.socialmedia-linkedin {
+  color: #0077b5 !important;
+  padding: 0.2rem !important;
+  &:hover {
+    opacity: 0.8;
+  }
+}

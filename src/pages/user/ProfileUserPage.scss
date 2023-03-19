@@ -1,0 +1,15 @@
+.profileuserpage-tab {
+  &.css-1p1zcqx-MuiButtonBase-root-MuiTab-root {
+    min-width: 40px;
+  }
+}
+
+.profileuserpage-modalbutton {
+  &.css-1qtu9q6-MuiButtonBase-root-MuiButton-root {
+    position: absolute;
+    right: 0px;
+    top: 18px;
+    z-index: 1;
+    text-transform: capitalize;
+  }
+}

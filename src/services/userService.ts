@@ -1,29 +1,67 @@
-import { CreateUserBodyType, UpdateUserBodyType } from '../types'
+import { CreateUserBodyType, UpdateMyUserBodyType, UpdateUserBodyType } from './types/app-req'
 import { axiosConfig } from './config/axios.config'
 import { SERVER_ROUTES } from './config/constants.config'
-import { GetMeUserType, GetMultipleUserType, MessageResponseType } from './types'
+import { GetMyUserType, GetMultipleUserType, MessageResponseType } from './types/api-res'
 
-export const getMeUser = async (accessToken: string): Promise<GetMeUserType> => {
+export const getMyUser = async (
+  accessToken: string
+): Promise<GetMyUserType> => {
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
-  const res = await axiosConfig.get(SERVER_ROUTES.ENDPOINTS.USER.ME, config)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  const res = await axiosConfig.get(SERVER_ROUTES.ENDPOINTS.USER.MY.CRUD, config)
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
-export const getMultipleUser = async (accessToken: string | null, active: boolean): Promise<GetMultipleUserType[]> => {
+export const updateMyUser = async (
+  accessToken: string | null,
+  myUser: UpdateMyUserBodyType,
+  avatar?: File
+): Promise<GetMyUserType> => {
+  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+
+  const formData = new FormData()
+  Object.keys(myUser).forEach((key) => {
+    if (myUser[key as keyof UpdateMyUserBodyType] != null && myUser[key as keyof UpdateMyUserBodyType] !== '') {
+      formData.append(key, String(myUser[key as keyof UpdateMyUserBodyType]))
+    }
+  })
+  if (avatar != null) formData.append('avatar', avatar)
+
+  const config = {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  }
+  const res = await axiosConfig.patch(SERVER_ROUTES.ENDPOINTS.USER.MY.CRUD, formData, config)
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
+  return res.data
+}
+
+export const getMultipleUser = async (
+  accessToken: string | null,
+  active: boolean
+): Promise<GetMultipleUserType> => {
   if (accessToken == null) throw new Error('Request Error, you do not have credentials')
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
   const res = await axiosConfig.get(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/?active=${String(active)}`, config)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
-export const createUser = async (accessToken: string | null, user: CreateUserBodyType, avatar?: File): Promise<MessageResponseType> => {
+export const createUser = async (
+  accessToken: string | null,
+  user: CreateUserBodyType,
+  avatar?: File
+): Promise<MessageResponseType> => {
   if (accessToken == null) throw new Error('Request Error, you do not have credentials')
 
   const formData = new FormData()
@@ -36,11 +74,18 @@ export const createUser = async (accessToken: string | null, user: CreateUserBod
     headers: { Authorization: `Bearer ${accessToken}` }
   }
   const res = await axiosConfig.post(SERVER_ROUTES.ENDPOINTS.USER.CRUD, formData, config)
-  if (res.status !== 201 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 201 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
-export const updateUser = async (accessToken: string | null, idUser: string, user: UpdateUserBodyType, avatar?: File): Promise<MessageResponseType> => {
+export const updateUser = async (
+  accessToken: string | null,
+  idUser: string,
+  user: UpdateUserBodyType,
+  avatar?: File
+): Promise<MessageResponseType> => {
   if (accessToken == null) throw new Error('Request Error, you do not have credentials')
 
   const formData = new FormData()
@@ -55,17 +100,24 @@ export const updateUser = async (accessToken: string | null, idUser: string, use
     headers: { Authorization: `Bearer ${accessToken}` }
   }
   const res = await axiosConfig.patch(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/${idUser}`, formData, config)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }
 
-export const deleteUser = async (accessToken: string | null, idUser: string): Promise<MessageResponseType> => {
+export const deleteUser = async (
+  accessToken: string | null,
+  idUser: string
+): Promise<MessageResponseType> => {
   if (accessToken == null) throw new Error('Request Error, you do not have credentials')
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
   }
   const res = await axiosConfig.delete(`${SERVER_ROUTES.ENDPOINTS.USER.CRUD}/${idUser}`, config)
-  if (res.status !== 200 || res.data === undefined) throw new Error('Something has gone wrong, please try again later')
+  if (res.status !== 200 || res.data === undefined) {
+    throw new Error('Something has gone wrong, please try again later')
+  }
   return res.data
 }

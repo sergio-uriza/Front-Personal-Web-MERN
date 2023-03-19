@@ -6,13 +6,14 @@ import Avatar from '@mui/material/Avatar'
 import SendIcon from '@mui/icons-material/Send'
 import CircularProgress from '@mui/material/CircularProgress'
 import PermMediaIcon from '@mui/icons-material/PermMedia'
+import FormHelperText from '@mui/material/FormHelperText'
 import Box from '@mui/material/Box'
 import { Editor } from '@tinymce/tinymce-react'
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
+import { BlogTypeAPI } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
-import { BlogTypeAPI } from '../../../services/types'
+import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { BlogFormType, blogSchema } from '../../../schemas/adminPage/blog.schema'
@@ -43,7 +44,16 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
 
-  const { handleSubmit, handleChange, handleBlur, isSubmitting, values, touched, errors, setFieldValue } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+    setFieldValue
+  } = useFormik({
     initialValues: initialValues(blog),
     validationSchema: blogSchema,
     onSubmit: async ({ title, path, prefix, content, miniature }, { resetForm }) => {
@@ -59,7 +69,11 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
           await updateBlog(
             accessToken,
             blog._id,
-            { title, content: (content !== blog.content ? content : undefined), path: (prefix.concat(path) !== blog.path ? prefix.concat(path) : undefined) },
+            {
+              title,
+              content: (content !== blog.content ? content : undefined),
+              path: (prefix.concat(path) !== blog.path ? prefix.concat(path) : undefined)
+            },
             miniature
           )
         }
@@ -79,28 +93,7 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
     void setFieldValue('miniature', file)
   }, [])
 
-  const onDropAccepted = useCallback((): void => {
-    console.log('Archivo Cargado Correctamente')
-  }, [])
-
-  const onDropRejected = useCallback((): void => {
-    console.log('Archivo No Admitido')
-  }, [])
-
-  const onError = useCallback((): void => {
-    console.log('Ocurrio Algun Error')
-  }, [])
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    onDropAccepted,
-    onDropRejected,
-    onError,
-    accept: { 'image/png': ['.png'], 'image/jpg': ['.jpeg', '.jpg'] },
-    multiple: false,
-    maxFiles: 1,
-    maxSize: 600000
-  })
+  const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
   const getRouteMiniature = (): string | undefined => {
     if (values.miniature != null) {
@@ -116,10 +109,23 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
       <Grid container rowSpacing={{ xs: 1, sm: 2 }} columnSpacing={3}>
         <Grid xs={12} sm={12} display='flex' justifyContent='center'>
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
+            <input {...getInputProps()} name='miniatureURL' />
             <Avatar
               variant='rounded'
-              sx={{ fontSize: '53px', m: 1, width: 100, height: 100, border: 'dotted', cursor: 'pointer', '&:hover': { borderColor: '#bdbdbd' } }}
+              style={{
+                borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null)
+                  ? 'red'
+                  : 'none'
+              }}
+              sx={{
+                fontSize: '53px',
+                m: 1,
+                width: 230,
+                height: 145,
+                border: 'dotted',
+                cursor: 'pointer',
+                '&:hover': { borderColor: '#bdbdbd' }
+              }}
               alt='BLOG'
               src={getRouteMiniature()}
             >
@@ -149,10 +155,13 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
             name='prefix'
             id='prefix'
             margin='none'
-            // defaultValue={values.prefix}
             value={values.prefix}
             size='small'
-            sx={{ width: '2.2rem', minWidth: '35px', '> div': { bgcolor: 'rgb(0 0 0 / 12%)', textAlign: 'center' } }}
+            sx={{
+              width: '2.2rem',
+              minWidth: '35px',
+              '> div': { bgcolor: 'rgb(0 0 0 / 12%)', textAlign: 'center' }
+            }}
             InputProps={{ readOnly: true }}
             required
           />
@@ -173,20 +182,34 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
         </Grid>
         <Grid xs={12} sm={12}>
           <Editor
-            apiKey='qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc'
             initialValue={blog?.content}
             init={{
               height: 400,
               menubar: false,
               placeholder: 'What do you want to share with us?...',
-              plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks fullscreen insertdatetime media table code help wordcount',
+              plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks fullscreen insertdatetime media table codesample code help wordcount',
+              codesample_languages: [
+                { text: 'HTML/XML', value: 'markup' },
+                { text: 'JavaScript', value: 'javascript' },
+                { text: 'CSS', value: 'css' },
+                { text: 'PHP', value: 'php' },
+                { text: 'Ruby', value: 'ruby' },
+                { text: 'Python', value: 'python' },
+                { text: 'Java', value: 'java' },
+                { text: 'C', value: 'c' },
+                { text: 'C#', value: 'csharp' },
+                { text: 'C++', value: 'cpp' }
+              ],
               toolbar: 'undo redo | bold italic underline forecolor | alignleft aligncenter ' +
               'alignright alignjustify | bullist numlist outdent indent | lineheight backcolor | ' +
-              'fontsize fontfamily | paste pastetext | subscript superscript hr | removeformat help',
+              'fontsize fontfamily | codesample paste pastetext | subscript superscript hr | removeformat help',
               toolbar_mode: 'scrolling'
             }}
             onChange={(e) => { void setFieldValue('content', e.target.getContent()) }}
           />
+          <FormHelperText error sx={{ textAlign: 'center' }}>
+            { (touched.content === true) && errors.content }
+          </FormHelperText>
         </Grid>
       </Grid>
 
@@ -196,7 +219,10 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
           variant='contained'
           sx={{ mt: 3, textTransform: 'capitalize', minWidth: '140px' }}
           disabled={isSubmitting}
-          endIcon={isSubmitting ? <CircularProgress color='inherit' size='1rem'/> : <SendIcon sx={{ fontSize: '15px !important' }} />}
+          endIcon={isSubmitting
+            ? <CircularProgress color='inherit' size='1rem'/>
+            : <SendIcon sx={{ fontSize: '15px !important' }} />
+          }
         >
           { isSubmitting
             ? <span>Sending</span>
@@ -205,7 +231,10 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
         </Button>
       </Box>
 
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', marginTop: '0.7rem' }}
+      >
         { formError }
       </Typography>
 

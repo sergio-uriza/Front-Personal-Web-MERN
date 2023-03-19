@@ -30,7 +30,7 @@ export function UserMenuList (): JSX.Element {
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
-          <ListItemText primary='Profile' />
+          <ListItemText primary='My Profile' />
         </ListItemButton>
 
         <ListItemButton
@@ -41,7 +41,7 @@ export function UserMenuList (): JSX.Element {
           <ListItemIcon>
             <InsertCommentIcon />
           </ListItemIcon>
-          <ListItemText primary='Blogs' />
+          <ListItemText primary='My Blogs' />
         </ListItemButton>
       </List>
     </>

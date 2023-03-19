@@ -21,13 +21,17 @@ export function BlogAdminPage (): JSX.Element {
 
   const handleNewGet = (): void => { setNewGet((prev) => !prev) }
   const handlePage = (e: React.ChangeEvent<unknown>, v: number): void => { setPage(v) }
-  const handleTotalPage = useCallback((value: number): void => { setTotalPages(value) }, [])
+  const handleTotalPages = useCallback((value: number): void => { setTotalPages(value) }, [])
   const { showModal, handleOpenModal, handleCloseModal } = useModalComponent()
 
   return (
     <>
       <Box component='div' sx={{ position: 'relative' }}>
-        <Button className='blogadminpage-modalbutton' variant='contained' onClick={handleOpenModal}>
+        <Button
+          className='blogadminpage-modalbutton'
+          variant='contained'
+          onClick={handleOpenModal}
+        >
           New Blog
         </Button>
 
@@ -40,18 +44,38 @@ export function BlogAdminPage (): JSX.Element {
             indicatorColor='secondary'
             sx={{ span: { opacity: '0' } }}
           >
-            <Tab className='coursesadminpage-tab' label='All' icon={<DoneAllIcon />} sx={{ opacity: '0', cursor: 'default', textTransform: 'capitalize' }} />
+            <Tab
+              className='blogadminpage-tab'
+              label='All'
+              icon={<DoneAllIcon />}
+              sx={{ opacity: '0', cursor: 'default', textTransform: 'capitalize' }}
+            />
           </Tabs>
         </Box>
         <TabPanel value={0} index={0}>
           <>
-            <Grid container rowSpacing={1} columnSpacing={2} sx={{ height: 'calc(100vh - 14.7rem)', overflowY: 'scroll', alignContent: 'flex-start', '&::-webkit-scrollbar': { display: 'none' } }}>
-              <BlogsList page={page} handleTotalPage={handleTotalPage} newGet={newGet} handleNewGet={handleNewGet} />
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={2}
+              sx={{
+                height: 'calc(100vh - 14.7rem)',
+                overflowY: 'scroll',
+                alignContent: 'flex-start',
+                '&::-webkit-scrollbar': { display: 'none' }
+              }}
+            >
+              <BlogsList
+                page={page}
+                handleTotalPages={handleTotalPages}
+                newGet={newGet}
+                handleNewGet={handleNewGet}
+              />
             </Grid>
             <Stack spacing={2} sx={{ alignItems: 'center', mt: '18px' }}>
               <Pagination
                 count={totalPages}
-                page={page}
+                page={page <= totalPages ? page : totalPages}
                 onChange={handlePage}
                 variant='outlined'
                 color='secondary'
@@ -67,7 +91,10 @@ export function BlogAdminPage (): JSX.Element {
         handleClose={handleCloseModal}
         ModalTitle='Create Blog'
       >
-        <BlogForm handleCloseModal={handleCloseModal} handleNewGet={handleNewGet} />
+        <BlogForm
+          handleCloseModal={handleCloseModal}
+          handleNewGet={handleNewGet}
+        />
       </BasicModal>
     </>
   )

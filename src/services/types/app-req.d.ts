@@ -1,7 +1,8 @@
-import { UserTypeAPI, MenuTypeAPI, CourseTypeAPI, BlogTypeAPI } from '../services/types'
+import { UserTypeAPI, MenuTypeAPI, CourseTypeAPI, BlogTypeAPI } from './api-res'
 
-export type CreateUserBodyType = Omit<UserTypeAPI, '_id' | 'active' | 'avatar'> & { password: string }
-export type UpdateUserBodyType = Partial<Omit<UserTypeAPI, '_id' | 'avatar'>> & { password?: string }
+export type UpdateMyUserBodyType = Partial<Omit<UserTypeAPI, '_id' | 'email' | 'role' | 'updatedAt' | 'avatar'>> & { password?: string }
+export type CreateUserBodyType = Omit<UserTypeAPI, '_id' | 'active' | 'updatedAt' | 'avatar'> & { password: string }
+export type UpdateUserBodyType = Partial<Omit<UserTypeAPI, '_id' | 'updatedAt' | 'avatar'>> & { password?: string }
 
 export type CreateMenuBodyType = Omit<MenuTypeAPI, '_id'>
 export type UpdateMenuBodyType = Partial<Omit<MenuTypeAPI, '_id'>>

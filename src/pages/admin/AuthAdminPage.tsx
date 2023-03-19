@@ -4,7 +4,6 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import { LoginForm } from '../../components/forms/LoginForm'
 import { IconMERN } from '../../assets/svg/IconMERN'
-import { loginAdminAuth } from '../../services/authService'
 
 export function AuthAdminPage (): JSX.Element {
   return (
@@ -12,10 +11,14 @@ export function AuthAdminPage (): JSX.Element {
       <Container maxWidth='sm'>
         <IconMERN className='logo'/>
         <Box className='box-panel' sx={{ py: 2 }}>
-          <Typography component='h1' variant='h5' sx={{ textAlign: 'center' }}>
+          <Typography
+            component='h1'
+            variant='h5'
+            sx={{ textAlign: 'center' }}
+          >
             Sign in
           </Typography>
-          <LoginForm fetchLogin={loginAdminAuth} />
+          <LoginForm isAdmin={true} />
         </Box>
       </Container>
     </div>

@@ -6,16 +6,32 @@ import { CourseItem } from './CourseItem'
 
 type PropsType = {
   page: number
-  handleTotalPage: (value: number) => void
+  handleTotalPages: (value: number) => void
   newGet: boolean
   handleNewGet: () => void
 }
 
-export const CoursesList = memo(function CoursesList ({ page, handleTotalPage, newGet, handleNewGet }: PropsType): JSX.Element {
-  const { coursesList } = useGetMultipleCourse(page, handleTotalPage, newGet)
+export const CoursesList = memo(function CoursesList ({
+  page,
+  handleTotalPages,
+  newGet,
+  handleNewGet
+}: PropsType): JSX.Element {
+  const { coursesList } = useGetMultipleCourse(10, page, handleTotalPages, newGet)
 
-  if (coursesList == null) return (<CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>)
-  if (coursesList.length === 0) return <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></span>
+  if (coursesList == null) {
+    return (
+      <CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>
+    )
+  }
+  if (coursesList.length === 0) {
+    return (
+      <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        No Data
+        <StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} />
+      </span>
+    )
+  }
 
   return (
     <>

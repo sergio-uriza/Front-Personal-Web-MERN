@@ -1,0 +1,61 @@
+@use 'src/sass/colors' as *;
+
+.clientappbar-header {
+  background-color: $background-dark-web !important;
+  border-bottom: 1px solid $primary;
+
+  .css-hyum1k-MuiToolbar-root {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .logo {
+    svg {
+      height: 32px !important;
+      width: 100% !important;
+      margin-top: 5px;
+      color: $text-light;
+    }
+
+    span {
+      font-size: 10px;
+      letter-spacing: 2.8px;
+      text-align: center;
+    }
+  }
+
+  .menu-item {
+    color: $text-light;
+    text-decoration: none;
+    margin-left: 13px;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  .clientappbar-social {
+    margin-right: 2%;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .clientappbar-header {
+    .menu-item {
+      display: none;
+    }
+    .clientappbar-social {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .clientappbar-header {
+    .menu-item-ext {
+      display: none;
+    }
+  }
+}

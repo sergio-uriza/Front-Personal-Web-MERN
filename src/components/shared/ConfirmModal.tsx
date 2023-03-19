@@ -27,7 +27,13 @@ type PropsType = {
   handleConfirm: () => Promise<void>
 }
 
-export function ConfirmModal ({ show, handleClose, ModalTitle, ModalContent, handleConfirm }: PropsType): JSX.Element {
+export function ConfirmModal ({
+  show,
+  handleClose,
+  ModalTitle,
+  ModalContent,
+  handleConfirm
+}: PropsType): JSX.Element {
   const [isSending, setIsSending] = useState<boolean>(false)
   const { formError, handleFormError, clearFormError } = useFormError()
 
@@ -50,6 +56,11 @@ export function ConfirmModal ({ show, handleClose, ModalTitle, ModalContent, han
       open={show}
       TransitionComponent={Transition}
       onClose={handleClose}
+      transitionDuration={{
+        enter: 450,
+        exit: 300
+      }}
+      disableEnforceFocus
     >
       <DialogTitle sx={{ display: 'flex', alignItems: 'center' }}>
         <InfoIcon sx={{ mr: '1rem' }} color='warning' />
@@ -60,19 +71,36 @@ export function ConfirmModal ({ show, handleClose, ModalTitle, ModalContent, han
           {ModalContent}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, justifyContent: { xs: 'center', sm: 'flex-end' } }}>
+      <DialogActions
+        sx={{ px: 3, justifyContent: { xs: 'center', sm: 'flex-end' } }}
+      >
         { isSending
           ? <CircularProgress color='inherit' size='1rem' sx={{ mr: 1 }}/>
           : null
         }
-        <Button onClick={handleClose} variant='contained' color='error' sx={{ textTransform: 'capitalize' }} disabled={isSending}>
+        <Button
+          onClick={handleClose}
+          variant='contained'
+          color='error'
+          sx={{ textTransform: 'capitalize' }}
+          disabled={isSending}
+        >
           Cancel
         </Button>
-        <Button onClick={handleSendConform} variant='contained' color='success' sx={{ textTransform: 'capitalize' }} disabled={isSending}>
+        <Button
+          onClick={handleSendConform}
+          variant='contained'
+          color='success'
+          sx={{ textTransform: 'capitalize' }}
+          disabled={isSending}
+        >
           Confirm
         </Button>
       </DialogActions>
-      <Typography component='p' sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', my: '0.7rem' }}>
+      <Typography
+        component='p'
+        sx={{ fontSize: '0.8rem', color: '#9f3a38', textAlign: 'center', my: '0.7rem' }}
+      >
         { formError }
       </Typography>
     </Dialog>

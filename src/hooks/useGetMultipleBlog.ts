@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react'
 import { getMultipleBlog } from '../services/blogService'
-import { BlogTypeAPI } from '../services/types'
+import { BlogTypeAPI } from '../services/types/api-res'
 
 type UseGetMultipleBlogType = {
   blogsList: BlogTypeAPI[] | null
 }
 
-export const useGetMultipleBlog = (page: number, handleTotalPage: (value: number) => void, newGet?: boolean): UseGetMultipleBlogType => {
+export const useGetMultipleBlog = (
+  limit: number,
+  page: number,
+  handleTotalPage: (value: number) => void,
+  newGet?: boolean
+): UseGetMultipleBlogType => {
   const [blogsList, setBlogsList] = useState<BlogTypeAPI[] | null>(null)
 
   useEffect(() => {
     setBlogsList(null)
-    getMultipleBlog(15, page)
+    getMultipleBlog(limit, page)
       .then((res) => {
         setBlogsList(res.docs)
         handleTotalPage(res.totalPages)
@@ -20,7 +25,7 @@ export const useGetMultipleBlog = (page: number, handleTotalPage: (value: number
         setBlogsList([])
         handleTotalPage(1)
       })
-  }, [handleTotalPage, newGet, page])
+  }, [handleTotalPage, limit, newGet, page])
 
   return {
     blogsList

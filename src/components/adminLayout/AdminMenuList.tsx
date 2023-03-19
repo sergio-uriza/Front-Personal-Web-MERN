@@ -18,66 +18,66 @@ export function AdminMenuList (): JSX.Element {
 
   return (
     <>
-      <Toolbar className="adminmenu-toolbar">
-        <IconMERN className="logo" />
+      <Toolbar className='adminmenu-toolbar'>
+        <IconMERN className='logo' />
       </Toolbar>
 
       <Divider sx={{ borderColor: 'gray' }} />
 
-      <List className="adminmenu-list">
+      <List className='adminmenu-list'>
         <ListItemButton
           component={Link}
-          to="/admin/users"
+          to='/admin/users'
           selected={pathname === '/admin/users'}
         >
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>
-          <ListItemText primary="Users" />
+          <ListItemText primary='Users' />
         </ListItemButton>
 
         <ListItemButton
           component={Link}
-          to="/admin/menu"
+          to='/admin/menu'
           selected={pathname === '/admin/menu'}
         >
           <ListItemIcon>
             <MenuIcon />
           </ListItemIcon>
-          <ListItemText primary="Menu" />
+          <ListItemText primary='Menu' />
         </ListItemButton>
 
         <ListItemButton
           component={Link}
-          to="/admin/courses"
+          to='/admin/courses'
           selected={pathname === '/admin/courses'}
         >
           <ListItemIcon>
             <LaptopChromebookIcon />
           </ListItemIcon>
-          <ListItemText primary="Courses" />
+          <ListItemText primary='Courses' />
         </ListItemButton>
 
         <ListItemButton
           component={Link}
-          to="/admin/blog"
+          to='/admin/blog'
           selected={pathname === '/admin/blog'}
         >
           <ListItemIcon>
             <ChatIcon />
           </ListItemIcon>
-          <ListItemText primary="Blog" />
+          <ListItemText primary='Blog' />
         </ListItemButton>
 
         <ListItemButton
           component={Link}
-          to="/admin/newsletter"
+          to='/admin/newsletter'
           selected={pathname === '/admin/newsletter'}
         >
           <ListItemIcon>
             <MarkEmailUnreadIcon />
           </ListItemIcon>
-          <ListItemText primary="Newsletter" />
+          <ListItemText primary='Newsletter' />
         </ListItemButton>
       </List>
     </>

@@ -24,19 +24,45 @@ type PropsType = {
   children?: JSX.Element
 }
 
-export function BasicModal ({ show, handleClose, ModalTitle, ClassName, children }: PropsType): JSX.Element {
+export function BasicModal ({
+  show,
+  handleClose,
+  ModalTitle,
+  ClassName,
+  children
+}: PropsType): JSX.Element {
   return (
     <Dialog
-      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', ' .css-iz3z40-MuiDialog-container::-webkit-scrollbar': { display: 'none' } }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        lignItems: 'center',
+        ' .css-iz3z40-MuiDialog-container::-webkit-scrollbar': { display: 'none' }
+      }}
       open={show}
       TransitionComponent={Transition}
       onClose={handleClose}
       scroll='body'
+      transitionDuration={{
+        enter: 450,
+        exit: 300
+      }}
+      disableEnforceFocus
     >
       <Box component='div' className='basicmodal-main'>
-        <Typography variant='h6' component='h3' sx={{ px: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography
+          variant='h6'
+          component='h3'
+          sx={{
+            px: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
           {ModalTitle}
-          <IconButton aria-label='delete' size='small' color='error' onClick={handleClose}>
+          <IconButton size='small' color='error' onClick={handleClose}>
             <BackspaceIcon fontSize='small' />
           </IconButton>
         </Typography>

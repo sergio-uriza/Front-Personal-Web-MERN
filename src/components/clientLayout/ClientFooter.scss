@@ -1,0 +1,51 @@
+@use 'src/sass/colors' as *;
+
+.webfooter-main {
+  display: flex;
+  flex-direction: row;
+
+  .webfooter-box-info {
+    .logo {
+      width: min-content;
+
+      svg {
+        height: 32px !important;
+        width: 140px !important;
+        margin-top: 5px;
+        color: $text-light;
+      }
+  
+      span {
+        font-size: 10px;
+        letter-spacing: 2.8px;
+        text-align: center;
+      }
+    }
+
+    .info-social {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .webfooter-box-technologies {
+    .technologies-side{
+      display: flex;
+      opacity: 0.7;
+
+      .technologies-sideleft {
+        width: 50%;
+      }
+      .technologies-sideright {
+        width: 50%;
+      }
+    }
+  }
+
+  .webfooter-lastbox {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    opacity: 0.6;
+  }
+}

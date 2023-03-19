@@ -10,11 +10,26 @@ type PropsType = {
   handleNewGet: () => void
 }
 
-export const MenusList = memo(function MenusList ({ isMenuActive, newGet, handleNewGet }: PropsType): JSX.Element {
+export const MenusList = memo(function MenusList ({
+  isMenuActive,
+  newGet,
+  handleNewGet
+}: PropsType): JSX.Element {
   const { menusList } = useGetMultipleMenu(isMenuActive, newGet)
 
-  if (menusList == null) return (<CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>)
-  if (menusList.length === 0) return <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>No Data<StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} /></span>
+  if (menusList == null) {
+    return (
+      <CircularProgress color='inherit' size={20} sx={{ m: 'auto' }}/>
+    )
+  }
+  if (menusList.length === 0) {
+    return (
+      <span style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        No Data
+        <StopScreenShareIcon fontSize='medium' sx={{ pl: 1 }} />
+      </span>
+    )
+  }
 
   return (
     <>

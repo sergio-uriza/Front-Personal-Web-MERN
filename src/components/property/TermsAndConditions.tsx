@@ -21,11 +21,17 @@ type PropsType = {
 export function TermsAndConditions ({ show, handleClose }: PropsType): JSX.Element {
   return (
     <Dialog
-      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
       open={show}
       TransitionComponent={Transition}
       onClose={handleClose}
       scroll='body'
+      disableEnforceFocus
     >
       <Box className='termsandconditions-body'>
         <Typography id='transition-modal-title' variant='h6' component='h2'>

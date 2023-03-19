@@ -4,22 +4,32 @@ export const registerSchema = Yup.object({
   firstname: Yup
     .string()
     .trim()
-    .min(3, 'Minimum 3 characters length')
+    .matches(/^[a-zA-ZÀ-ÿ0-9]+$/, 'Invalid characters')
+    .min(3, 'Min 3 characters')
+    .max(30, 'Max 30 characters')
     .required('Firstname is required'),
   lastname: Yup
     .string()
     .trim()
-    .min(3, 'Minimum 3 characters length')
+    .matches(/^[a-zA-ZÀ-ÿ0-9]+$/, 'Invalid characters')
+    .min(3, 'Min 3 characters')
+    .max(30, 'Max 30 characters')
     .required('Lastname is required'),
   email: Yup
     .string()
     .trim()
     .lowercase()
     .email('Enter a valid email')
+    .max(50, 'Max 50 characters')
     .required('Email is required'),
   password: Yup
     .string()
-    .min(6, 'Minimum 6 characters length')
+    .matches(/^([^<>]*)$/, 'Invalid characters')
+    .matches(/(?=.*[a-z])/, 'At least 1 lowercase')
+    .matches(/(?=.*[A-Z])/, 'At least 1 uppercase')
+    .matches(/(?=.*[0-9])/, 'At least 1 number')
+    .min(6, 'Min 6 characters')
+    .max(18, 'Max 18 characters')
     .required('Password is required'),
   confpwd: Yup
     .string()

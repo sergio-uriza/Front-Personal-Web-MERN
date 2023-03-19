@@ -8,6 +8,7 @@ export type UserTypeAPI = {
   email: string
   role: UserRole
   active: boolean
+  updatedAt: Date
   avatar?: string
 }
 
@@ -63,11 +64,11 @@ export type RefreshAccTokenAuthType = {
 }
 
 // USER SERVICE TYPES
-export type GetMeUserType = Omit<UserTypeAPI, 'active'>
-export type GetMultipleUserType = UserTypeAPI
+export type GetMyUserType = Omit<UserTypeAPI, 'updatedAt' | 'active'>
+export type GetMultipleUserType = UserTypeAPI[]
 
 // MENU SERVICE TYPES
-export type GetMultipleMenuType = MenuTypeAPI
+export type GetMultipleMenuType = MenuTypeAPI[]
 
 // COURSE SERVICE TYPES
 export type GetMultipleCourseType = {
@@ -79,6 +80,15 @@ export type GetMultipleCourseType = {
 }
 
 // BLOG SERVICE TYPES
+export type GetByPathBlogType = BlogTypeAPI
+export type GetMyBlogType = Omit<BlogTypeAPI, 'user'>
+export type GetMyMultipleBlogType = {
+  docs: GetMyBlogType[]
+  totalDocs: number
+  limit: number
+  page: number
+  totalPages: number
+}
 export type GetMultipleBlogType = {
   docs: BlogTypeAPI[]
   totalDocs: number
