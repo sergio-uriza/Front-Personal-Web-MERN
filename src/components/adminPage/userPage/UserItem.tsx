@@ -17,6 +17,7 @@ import { UserTypeAPI } from '../../../services/types/api-res'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteUser, updateUser } from '../../../services/userService'
 import { DateTime } from 'luxon'
+import { useSnackbar } from 'notistack'
 
 type PropsType = {
   user: UserTypeAPI
@@ -30,6 +31,7 @@ export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
   const [isDelete, setIsDelete] = useState<boolean>(false)
+  const { enqueueSnackbar } = useSnackbar()
   const date = new Date(user.updatedAt)
 
   const handleCustomOpenModal = (): void => {
@@ -56,11 +58,16 @@ export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
 
   const fetchToggleActive = async (): Promise<void> => {
     await updateUser(accessToken, user._id, { active: !user.active })
+    enqueueSnackbar(
+      user.active ? 'User Deactivated' : 'User Activated',
+      { variant: user.active ? 'warning' : 'success' }
+    )
     handleNewGet()
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
     await deleteUser(accessToken, user._id)
+    enqueueSnackbar('User Deleted', { variant: 'success' })
     handleNewGet()
   }
 
@@ -94,8 +101,9 @@ export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
               height: 'auto',
               fontSize: '28px'
             }}
+            imgProps={{ loading: 'lazy' }}
           />
-          <Box component='div' sx={{ ' p': { wordBreak: 'break-word' } }}>
+          <Box component='div' sx={{ '& p': { wordBreak: 'break-word' } }}>
             <Typography
               component='p'
               variant='body1'

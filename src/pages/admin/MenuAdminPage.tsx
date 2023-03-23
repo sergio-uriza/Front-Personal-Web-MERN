@@ -1,6 +1,6 @@
 import './MenuAdminPage.scss'
-import { useState } from 'react'
-import { Box } from '@mui/material'
+import { useCallback, useState } from 'react'
+import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Button from '@mui/material/Button'
@@ -20,7 +20,7 @@ export function MenuAdminPage (): JSX.Element {
   const handleChange = (e: React.SyntheticEvent, newValue: number): void => {
     setValue(newValue)
   }
-  const handleNewGet = (): void => { setNewGet((prev) => !prev) }
+  const handleNewGet = useCallback((): void => { setNewGet((prev) => !prev) }, [])
   const { showModal, handleOpenModal, handleCloseModal } = useModalComponent()
 
   return (

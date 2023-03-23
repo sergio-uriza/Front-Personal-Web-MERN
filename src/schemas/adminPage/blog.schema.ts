@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 export const blogSchema = Yup.object({
   miniatureURL: Yup
     .string()
-    .required(),
+    .required('Miniature is required'),
   title: Yup
     .string()
     .trim()

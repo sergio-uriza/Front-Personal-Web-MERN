@@ -1,7 +1,8 @@
 @use 'src/sass/colors' as *;
 
 .authadminpage-page {
-  background-image: url('../../assets/jpg/auth-bg.jpg');
+  background: rgb(0 0 0 / 93%);
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(15,22,28,1) 50%, rgba(0,0,0,1) 100%);
   background-position: center;
   background-size: contain;
   min-height: 100vh;

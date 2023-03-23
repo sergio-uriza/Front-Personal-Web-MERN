@@ -4,8 +4,8 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { Link } from 'react-router-dom'
-import { Box } from '@mui/material'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { DateTime } from 'luxon'
 
@@ -46,6 +46,7 @@ export function BlogElement ({ blog }: PropsType): JSX.Element {
           }
           alt='miniature'
           sx={{ width: '100%', aspectRatio: '1.7/1', objectFit: 'fill', m: 'auto' }}
+          loading='lazy'
         />
         <CardContent sx={{ width: '100%', flexGrow: '1', p: '0.8rem' }}>
           <Typography

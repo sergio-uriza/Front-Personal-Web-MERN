@@ -14,6 +14,7 @@ import { MenuTypeAPI } from '../../../services/types/api-res'
 import { useModalComponent } from '../../../hooks/useModalComponent'
 import { deleteMenu, updateMenu } from '../../../services/menuService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
+import { useSnackbar } from 'notistack'
 
 const protectedPath = ['/', '/courses', '/blog']
 
@@ -29,6 +30,7 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
   const [isDelete, setIsDelete] = useState<boolean>(false)
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleCustomOpenModal = (): void => {
     setTitleModalEdit('Update Menu')
@@ -54,11 +56,16 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
 
   const fetchToggleActive = async (): Promise<void> => {
     await updateMenu(accessToken, menu._id, { active: !menu.active })
+    enqueueSnackbar(
+      menu.active ? 'Menu Deactivated' : 'Menu Activated',
+      { variant: menu.active ? 'warning' : 'success' }
+    )
     handleNewGet()
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
     await deleteMenu(accessToken, menu._id)
+    enqueueSnackbar('Menu Deleted', { variant: 'success' })
     handleNewGet()
   }
 
@@ -79,7 +86,7 @@ export function MenuItem ({ menu, handleNewGet }: PropsType): JSX.Element {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            ' p': { wordBreak: 'break-word' }
+            '& p': { wordBreak: 'break-word' }
           }}
         >
           <Typography

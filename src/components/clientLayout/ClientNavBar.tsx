@@ -8,33 +8,27 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { Link, useLocation } from 'react-router-dom'
-import { MenuTypeAPI } from '../../services/types/api-res'
 import { ClientSocialMedia } from './ClientSocialMedia'
+import { useGetMultipleMenu } from '../../hooks/useGetMultipleMenu'
 
 type PropsType = {
   drawerWidth: number
   mobileOpen: boolean
   handleDrawerToggle: () => void
-  menusList: MenuTypeAPI[] | null
-  window?: () => Window
 }
 
 export function ClientNavBarRes ({
   drawerWidth,
   mobileOpen,
-  handleDrawerToggle,
-  menusList,
-  window
+  handleDrawerToggle
 }: PropsType): JSX.Element {
+  const { menusList } = useGetMultipleMenu(true)
   const { pathname } = useLocation()
-  const container =
-    window !== undefined ? () => window().document.body : undefined
 
   return (
     <Box component='nav'>
       <Drawer
         className='clientnavbar-temporary'
-        container={container}
         variant='temporary'
         open={mobileOpen}
         onClose={handleDrawerToggle}

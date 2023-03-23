@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia'
 import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 
 const numberFormat = new Intl.NumberFormat('en-US')
@@ -46,6 +46,7 @@ export function CourseElement ({ course }: PropsType): JSX.Element {
           }
           alt='miniature'
           sx={{ width: '100%', aspectRatio: '1.7/1', objectFit: 'fill', m: 'auto' }}
+          loading='lazy'
         />
         <CardContent sx={{ width: '100%', flexGrow: '1', p: '0.8rem' }}>
           <Typography
@@ -99,7 +100,7 @@ export function CourseElement ({ course }: PropsType): JSX.Element {
           <Rating
             sx={{
               fontSize: { xs: '1rem', sm: '0.9rem', md: '1.2rem' },
-              ' .css-1c99szj-MuiRating-icon': { color: 'gray' }
+              '& .MuiRating-icon.MuiRating-iconEmpty': { color: 'gray' }
             }}
             defaultValue={course.score}
             precision={0.1}

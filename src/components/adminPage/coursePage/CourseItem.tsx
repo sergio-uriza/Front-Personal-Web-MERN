@@ -15,6 +15,7 @@ import { CourseTypeAPI } from '../../../services/types/api-res'
 import { CourseForm } from './CourseForm'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteCourse } from '../../../services/courseService'
+import { useSnackbar } from 'notistack'
 
 type PropsType = {
   course: CourseTypeAPI
@@ -27,6 +28,7 @@ export function CourseItem ({ course, handleNewGet }: PropsType): JSX.Element {
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleCustomOpenModal = (): void => {
     setTitleModalEdit('Update Course')
@@ -42,6 +44,7 @@ export function CourseItem ({ course, handleNewGet }: PropsType): JSX.Element {
 
   const fetchDeleteItem = async (): Promise<void> => {
     await deleteCourse(accessToken, course._id)
+    enqueueSnackbar('Course Deleted', { variant: 'success' })
     handleNewGet()
   }
 
@@ -74,8 +77,9 @@ export function CourseItem ({ course, handleNewGet }: PropsType): JSX.Element {
               height: 'auto',
               fontSize: '28px'
             }}
+            imgProps={{ loading: 'lazy' }}
           />
-          <Box component='div' sx={{ ' p': { wordBreak: 'break-word' } }}>
+          <Box component='div' sx={{ '& p': { wordBreak: 'break-word' } }}>
             <Typography
               component='p'
               variant='body1'

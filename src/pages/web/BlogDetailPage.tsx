@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useGetByPathBlog } from '../../hooks/useGetByPathBlog'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import CircularProgress from '@mui/material/CircularProgress'
 import CloudOffIcon from '@mui/icons-material/CloudOff'
@@ -22,7 +22,7 @@ export function BlogDetailPage (): JSX.Element {
             paddingBottom: '0.7rem'
           }}
         >
-          Recovering Blog
+          Recovering Post
         </h3>
 
         <Box
@@ -69,7 +69,7 @@ export function BlogDetailPage (): JSX.Element {
               justifyContent: 'center'
             }}
           >
-            No Courses Data
+            No Post Data
             <CloudOffIcon fontSize='medium' sx={{ pl: 1 }} />
           </span>
         </Box>
@@ -111,7 +111,7 @@ export function BlogDetailPage (): JSX.Element {
             all: 'revert',
             textAlign: 'initial',
             wordBreak: 'break-word',
-            ' pre': { lineHeight: '1rem', fontSize: 'initial', wordBreak: 'normal' }
+            '& pre': { lineHeight: '1rem', fontSize: 'initial', wordBreak: 'normal' }
           }}
         >
           {ReactHtmlParser(blog.content)}

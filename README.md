@@ -13,7 +13,7 @@
 
 ## Get the Project
 
-- [ ] [Go to the repository in gitlab](https://github.com/sergio266/Front-Personal-Web-MERN.git) and review the project structure, you can download it the *.zip* or just use the command:
+- [ ] [Go to the repository in github](https://github.com/sergio266/Front-Personal-Web-MERN.git) and review the project structure, you can download it the *.zip* or just use the command:
 
 ```
 cd folder_location
@@ -31,7 +31,7 @@ git clone https://github.com/sergio266/Front-Personal-Web-MERN.git
 
 - ***`Eslint:`*** It is a static code analysis tool for identifying problematic patterns found in JavaScript code. Rules in ESLint are configurable, and customized rules can be defined and loaded. ESLint covers both code quality and coding style issues.
 
-- ***`Jest:`*** It is a delightful JavaScript Testing Framework with a focus on simplicity and built on top of Jasmine.
+- ***`Vitest:`*** It is a blazing fast unit test framework to JavaScript powered by Vite. It has a great integration with Jest since it is strongly inspired by it. So migrating from Jest is very easy and fast.
 
 - ***`Vite:`*** It is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts: a dev server that provides rich feature enhancements over native ES modules and a build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production.
 
@@ -48,10 +48,15 @@ git clone https://github.com/sergio266/Front-Personal-Web-MERN.git
 
 ## Project Scripts
 
-- *"dev":* Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-The page will reload if you make edits. You will also see any lint errors in the console.
+- *"format":* Running this script will format all of the project's code using the Prettier tool under the parameters set in its configuration file.
 
-- *"build":* Builds the app for production to the ***build*** folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- *"lint":* Running this script you will be able to print to the terminal all those errors and warnings thrown by es-lint, after analyzing the project code according to its configuration.
+
+- *"lint-fix":* Running this script you will allow es-lint to fix as many errors and warnings as possible and print the remaining errors and warnings to the terminal, after analyzing the project's code according to its configuration.
+
+- *"dev":* Runs the application in development mode. Start a local server to view the project in the browser. If you make changes to the code, Vite will rerender only those components that have been updated. You will also see any lint errors in the console.
+
+- *"build":* When it is time to deploy your app for production, simply run this script. By default, it uses '*root/index.html*' as the build entry point, and produces an application bundle that is suitable to be served over a static hosting service. For more information visit [Building for Production - Vite](https://vitejs.dev/guide/build.html)
 
 - *"preview":* Is a CLI utility that can be used to preview Vite projects in a production-like environment. It builds the project, starts a production server, and opens a browser to the server URL.
 
@@ -71,4 +76,4 @@ No open source project.
 
 ## Project status
 
-In progress...
+Ready!

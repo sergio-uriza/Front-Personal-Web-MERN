@@ -1,6 +1,6 @@
 import './NewsletterAdminPage.scss'
 import { useCallback, useState } from 'react'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Stack from '@mui/material/Stack'
@@ -17,7 +17,7 @@ export function NewsletterAdminPage (): JSX.Element {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [order, setOrder] = useState<number>(1)
 
-  const handleNewGet = (): void => { setNewGet((prev) => !prev) }
+  const handleNewGet = useCallback((): void => { setNewGet((prev) => !prev) }, [])
   const handlePage = (e: React.ChangeEvent<unknown>, v: number): void => {
     setPage(v)
   }

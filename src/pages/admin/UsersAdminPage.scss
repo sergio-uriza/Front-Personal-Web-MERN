@@ -1,11 +1,11 @@
 .usersadminpage-tab {
-  &.css-1p1zcqx-MuiButtonBase-root-MuiTab-root {
+  &.MuiButtonBase-root.MuiTab-root.MuiTab-labelIcon {
     min-width: 40px;
   }
 }
 
 .usersadminpage-modalbutton {
-  &.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  &.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
     position: absolute;
     right: 0px;
     top: 18px;

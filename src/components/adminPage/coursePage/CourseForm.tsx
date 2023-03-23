@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send'
 import CircularProgress from '@mui/material/CircularProgress'
 import PermMediaIcon from '@mui/icons-material/PermMedia'
 import InputAdornment from '@mui/material/InputAdornment'
+import FormHelperText from '@mui/material/FormHelperText'
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
 import { CourseTypeAPI } from '../../../services/types/api-res'
@@ -18,6 +19,7 @@ import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { CourseFormType, courseSchema } from '../../../schemas/adminPage/course.schema'
 import { createCourse, updateCourse } from '../../../services/courseService'
+import { useSnackbar } from 'notistack'
 
 const extractPrefix = (text: string): 'https://' | 'http://' => {
   if (text.startsWith('https://')) return 'https://'
@@ -64,6 +66,7 @@ type PropsType = {
 export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -92,6 +95,7 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
             },
             miniature
           )
+          enqueueSnackbar('Course Created', { variant: 'success' })
         } else {
           await updateCourse(
             accessToken,
@@ -105,6 +109,7 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
             },
             miniature
           )
+          enqueueSnackbar('Course Updated', { variant: 'success' })
         }
         resetForm()
         handleNewGet()
@@ -120,7 +125,7 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
     const file = acceptedFiles[0]
     void setFieldValue('miniatureURL', URL.createObjectURL(file))
     void setFieldValue('miniature', file)
-  }, [])
+  }, [setFieldValue])
 
   const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
@@ -136,16 +141,11 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
   return (
     <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1, px: '7%' }} >
       <Grid container rowSpacing={{ xs: 1, sm: 2 }} columnSpacing={3}>
-        <Grid xs={12} sm={12} display='flex' justifyContent='center'>
+        <Grid xs={12} sm={12} display='flex' alignItems='center' flexDirection='column'>
           <div {...getRootProps()}>
             <input {...getInputProps()} name='miniatureURL' />
             <Avatar
               variant='rounded'
-              style={{
-                borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null)
-                  ? 'red'
-                  : 'none'
-              }}
               sx={{
                 fontSize: '53px',
                 m: 1,
@@ -161,6 +161,9 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
               {values.miniatureURL === '' ? <PermMediaIcon sx={{ fontSize: '55px' }} /> : null}
             </Avatar>
           </div>
+          <FormHelperText error sx={{ textAlign: 'center' }}>
+            { (touched.miniatureURL === true) && errors.miniatureURL }
+          </FormHelperText>
         </Grid>
         <Grid xs={12} sm={12}>
           <TextField

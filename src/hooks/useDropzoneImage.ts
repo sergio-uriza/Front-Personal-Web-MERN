@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useSnackbar } from 'notistack'
 import { DropzoneInputProps, DropzoneRootProps, useDropzone } from 'react-dropzone'
 
 type UseDropzoneImageType = {
@@ -9,17 +10,19 @@ type UseDropzoneImageType = {
 export const useDropzoneImage = (
   onDrop: (acceptedFiles: File[]) => void
 ): UseDropzoneImageType => {
+  const { enqueueSnackbar } = useSnackbar()
+
   const onDropAccepted = useCallback((): void => {
-    console.log('Archivo Cargado Correctamente')
-  }, [])
+    enqueueSnackbar('File Uploaded Successfully', { variant: 'success' })
+  }, [enqueueSnackbar])
 
   const onDropRejected = useCallback((): void => {
-    console.log('Archivo No Admitido')
-  }, [])
+    enqueueSnackbar('File Not Supported', { variant: 'warning' })
+  }, [enqueueSnackbar])
 
   const onError = useCallback((): void => {
-    console.log('Ocurrio Algun Error')
-  }, [])
+    enqueueSnackbar('Failed to Upload File', { variant: 'warning' })
+  }, [enqueueSnackbar])
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

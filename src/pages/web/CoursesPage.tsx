@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Container from '@mui/material/Container'
 import Pagination from '@mui/material/Pagination'
@@ -15,7 +15,9 @@ export function CoursesPage (): JSX.Element {
   const [searchParams] = useSearchParams()
   const getLastPage = (): number | undefined => {
     if (searchParams.get('page') != null && !isNaN(Number(searchParams.get('page')))) {
-      return Number(searchParams.get('page'))
+      return Math.round(Number(searchParams.get('page'))) < 1
+        ? 1
+        : Math.round(Number(searchParams.get('page')))
     }
     return undefined
   }
@@ -25,7 +27,12 @@ export function CoursesPage (): JSX.Element {
 
   const handlePage = (e: React.ChangeEvent<unknown>, v: number): void => {
     setPage(v)
-    navigate(`?page=${v}`)
+    if (
+      searchParams.get('page') == null ||
+      (searchParams.get('page') != null && Number(searchParams.get('page')) !== v)
+    ) {
+      navigate(`?page=${v}`)
+    }
   }
   const handleTotalPages = useCallback((value: number): void => {
     setTotalPages(value)
@@ -37,7 +44,7 @@ export function CoursesPage (): JSX.Element {
     return (
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <LocalLibraryIcon
-          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' } }}
+          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white' }}
         />
         <h3
           style={{
@@ -67,7 +74,7 @@ export function CoursesPage (): JSX.Element {
     return (
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <LocalLibraryIcon
-          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' } }}
+          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white' }}
         />
         <h3
           style={{
@@ -107,7 +114,7 @@ export function CoursesPage (): JSX.Element {
     return (
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <LocalLibraryIcon
-          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' } }}
+          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white' }}
         />
         <h3
           style={{
@@ -148,8 +155,8 @@ export function CoursesPage (): JSX.Element {
         >
           <Pagination
             sx={{
-              ' button': { color: 'white', border: '1px solid rgba(255, 255, 255, 0.23)', bgcolor: '#16212b' },
-              ' .css-1v2lvtn-MuiPaginationItem-root': { color: 'white' }
+              '& button': { color: 'white', border: '1px solid rgba(255, 255, 255, 0.23)', bgcolor: '#16212b' },
+              '& .MuiPaginationItem-root': { color: 'white' }
             }}
             count={totalPages}
             page={page <= totalPages ? page : totalPages}

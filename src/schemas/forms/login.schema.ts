@@ -10,12 +10,7 @@ export const loginSchema = Yup.object({
     .required('Email is required'),
   password: Yup
     .string()
-    .matches(/^([^<>]*)$/, 'Invalid characters')
-    .matches(/(?=.*[a-z])/, 'At least 1 lowercase')
-    .matches(/(?=.*[A-Z])/, 'At least 1 uppercase')
-    .matches(/(?=.*[0-9])/, 'At least 1 number')
-    .min(6, 'Min 6 characters')
-    .max(18, 'Max 18 characters')
+    .max(20, 'Max 20 characters')
     .required('Password is required')
 })
 

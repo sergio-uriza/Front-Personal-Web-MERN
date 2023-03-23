@@ -10,13 +10,14 @@ import Avatar from '@mui/material/Avatar'
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
 import CircularProgress from '@mui/material/CircularProgress'
 import Link from '@mui/material/Link'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import { useFormik } from 'formik'
 import { registerSchema, RegisterFormType } from '../../schemas/forms/register.schema'
 import { useFormError } from '../../hooks/useFormError'
 import { TermsAndConditions } from '../property/TermsAndConditions'
 import { registerUserAuth } from '../../services/authService'
 import { useModalComponent } from '../../hooks/useModalComponent'
+import { useSnackbar } from 'notistack'
 
 const initialValues: RegisterFormType = {
   firstname: '',
@@ -34,6 +35,7 @@ type PropsType = {
 export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { showModal, handleOpenModal, handleCloseModal } = useModalComponent()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -51,6 +53,7 @@ export function RegisterForm ({ setToLogin }: PropsType): JSX.Element {
       try {
         clearFormError()
         await registerUserAuth(firstname, lastname, email, password)
+        enqueueSnackbar('Registered Successfully', { variant: 'success' })
         resetForm()
         if (setToLogin != null) setToLogin()
       } catch (err) {

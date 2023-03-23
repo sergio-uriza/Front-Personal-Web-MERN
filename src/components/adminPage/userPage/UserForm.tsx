@@ -17,6 +17,7 @@ import { createUser, updateUser } from '../../../services/userService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { UserFormType, createUserSchema, updateUserSchema } from '../../../schemas/adminPage/user.schema'
+import { useSnackbar } from 'notistack'
 
 const initialValues = (
   user?: UserTypeAPI
@@ -53,6 +54,7 @@ type PropsType = {
 export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -75,6 +77,7 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
             { firstname, lastname, password, email, role },
             avatar
           )
+          enqueueSnackbar('User Created', { variant: 'success' })
         } else {
           await updateUser(
             accessToken,
@@ -82,6 +85,7 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
             { firstname, lastname, password, role, email: email !== user.email ? email : '' },
             avatar
           )
+          enqueueSnackbar('User Updated', { variant: 'success' })
         }
         resetForm()
         handleNewGet()
@@ -97,7 +101,7 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
     const file = acceptedFiles[0]
     void setFieldValue('avatarURL', URL.createObjectURL(file))
     void setFieldValue('avatar', file)
-  }, [])
+  }, [setFieldValue])
 
   const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 

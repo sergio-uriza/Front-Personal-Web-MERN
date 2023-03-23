@@ -1,6 +1,6 @@
 import { useGetMultipleCourse } from '../../../hooks/useGetMultipleCourse'
 import Container from '@mui/material/Container'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
@@ -125,6 +125,7 @@ export function HomeCourses (): JSX.Element {
                       objectFit: 'fill',
                       m: 'auto'
                     }}
+                    loading='lazy'
                   />
                   <CardContent sx={{ flexGrow: '1', p: '0 0.6rem 0 0.6rem' }}>
                     <Typography

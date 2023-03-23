@@ -16,7 +16,7 @@ import { updateMyUser } from '../../../services/userService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { ProfileUserFormType, profileUserSchema } from '../../../schemas/userPage/profile.schema'
-import { UserRole } from '../../../enums/userRole.enum'
+import { useSnackbar } from 'notistack'
 
 const initialValues = (
   myUser: GetMyUserType
@@ -27,9 +27,9 @@ const initialValues = (
     firstname: myUser.firstname,
     lastname: myUser.lastname,
     email: myUser.email,
-    role: (myUser.role === UserRole.ADMIN ? 'Administrator' : 'User'),
-    password: '',
-    confpwd: ''
+    oldPassword: '',
+    newPassword: '',
+    confNewPwd: ''
   }
 }
 
@@ -41,6 +41,7 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { logoutAuthHandler, updateLoggedUserAuth } = useAuthContext()
   const { accessToken } = useAuthContext()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -54,19 +55,22 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
   } = useFormik({
     initialValues: initialValues(myUser),
     validationSchema: profileUserSchema,
-    onSubmit: async ({ firstname, lastname, password, avatar }) => {
+    onSubmit: async ({ firstname, lastname, oldPassword, newPassword, avatar }, { resetForm }) => {
       try {
         clearFormError()
         const newMyUser = await updateMyUser(
           accessToken,
-          { firstname, lastname, password },
+          { firstname, lastname, oldPassword, newPassword },
           avatar
         )
-        if (password != null && password !== '') {
+        if (newPassword != null && newPassword !== '') {
           logoutAuthHandler()
+          enqueueSnackbar('Try The New Password', { variant: 'info' })
         } else {
           updateLoggedUserAuth(newMyUser)
+          enqueueSnackbar('Profile Updated', { variant: 'success' })
         }
+        resetForm({ values: { ...initialValues(newMyUser) } })
       } catch (err) {
         handleFormError(err)
       }
@@ -78,7 +82,7 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
     const file = acceptedFiles[0]
     void setFieldValue('avatarURL', URL.createObjectURL(file))
     void setFieldValue('avatar', file)
-  }, [])
+  }, [setFieldValue])
 
   const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
@@ -164,51 +168,50 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
         </Grid>
         <Grid xs={12} sm={6}>
           <TextField
-            name='role'
-            id='role'
-            label='Role'
+            name='oldPassword'
+            id='oldPassword'
+            type='password'
+            label='Old Password'
             margin='none'
-            defaultValue={values.role}
-            error={(touched.role === true) && Boolean(errors.role)}
-            helperText={(touched.role === true) && errors.role}
+            value={values.oldPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={(touched.oldPassword === true) && Boolean(errors.oldPassword)}
+            helperText={(values.oldPassword !== '') && (touched.oldPassword === true) && errors.oldPassword}
             size='small'
-            required
             fullWidth
-            disabled
           />
         </Grid>
         <Grid xs={12} sm={6}>
           <TextField
-            name='password'
-            id='password'
+            name='newPassword'
+            id='newPassword'
             type='password'
-            label='Password'
+            label='New Password'
             margin='none'
-            value={values.password}
+            value={values.newPassword}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={(touched.password === true) && Boolean(errors.password)}
-            helperText={(values.password !== '') && (touched.password === true) && errors.password}
+            error={(touched.newPassword === true) && Boolean(errors.newPassword)}
+            helperText={(values.newPassword !== '') && (touched.newPassword === true) && errors.newPassword}
             autoComplete='new-password'
             size='small'
-            required
             fullWidth
           />
         </Grid>
         <Grid xs={12} sm={6}>
           <TextField
-            name='confpwd'
-            id='confpwd'
+            name='confNewPwd'
+            id='confNewPwd'
             type='password'
-            label='Confirm Pwd'
+            label='Confirm New Pwd'
             margin='none'
-            value={values.confpwd}
+            value={values.confNewPwd}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={(touched.confpwd === true) && Boolean(errors.confpwd)}
-            helperText={(values.confpwd !== '') && (touched.confpwd === true) && errors.confpwd}
+            error={(touched.confNewPwd === true) && Boolean(errors.confNewPwd)}
+            helperText={(values.confNewPwd !== '') && (touched.confNewPwd === true) && errors.confNewPwd}
             size='small'
-            required
             fullWidth
           />
         </Grid>

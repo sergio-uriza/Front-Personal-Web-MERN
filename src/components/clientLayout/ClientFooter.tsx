@@ -12,13 +12,14 @@ import Container from '@mui/material/Container'
 import { IconMERN } from '../../assets/svg/IconMERN'
 import { ClientSocialMedia } from './ClientSocialMedia'
 import { NewsletterForm } from '../forms/NewsletterForm'
+import { memo } from 'react'
 
 const technologiesList = [
   ['Javascript', 'Typescript', 'HTML', 'CSS', 'Git'],
   ['React', 'Express', 'SASS', 'PostgreSQL', 'MongoDB']
 ]
 
-export function ClientFooter (): JSX.Element {
+export const ClientFooter = memo(function ClientFooter (): JSX.Element {
   return (
     <Container maxWidth='md'>
       <Grid container rowSpacing={{ xs: 1, sm: 2 }} columnSpacing={3} className='webfooter-main'>
@@ -61,7 +62,7 @@ export function ClientFooter (): JSX.Element {
                 technologiesList[0].map((text) => (
                   <ListItem key={text} sx={{ p: 0 }}>
                     <ListItemIcon
-                      sx={{ minWidth: '23%', m: 0, ' svg': { fontSize: '1.1rem' } }}
+                      sx={{ minWidth: '23%', m: 0, '& svg': { fontSize: '1.1rem' } }}
                     >
                       <KeyboardDoubleArrowRightIcon
                         sx={{ color: 'white', opacity: '0.8' }}
@@ -69,7 +70,7 @@ export function ClientFooter (): JSX.Element {
                     </ListItemIcon>
                     <ListItemText
                       primary={text}
-                      sx={{ my: '0.08rem', ' span': { fontSize: '0.8rem' } }}
+                      sx={{ my: '0.08rem', '& span': { fontSize: '0.8rem' } }}
                     />
                   </ListItem>
                 ))
@@ -80,7 +81,7 @@ export function ClientFooter (): JSX.Element {
                 technologiesList[1].map((text) => (
                   <ListItem key={text} sx={{ p: 0 }}>
                     <ListItemIcon
-                      sx={{ minWidth: '23%', m: 0, ' svg': { fontSize: '1.1rem' } }}
+                      sx={{ minWidth: '23%', m: 0, '& svg': { fontSize: '1.1rem' } }}
                     >
                       <KeyboardDoubleArrowRightIcon
                         sx={{ color: 'white', opacity: '0.8' }}
@@ -88,7 +89,7 @@ export function ClientFooter (): JSX.Element {
                     </ListItemIcon>
                     <ListItemText
                       primary={text}
-                      sx={{ my: '0.08rem', ' span': { fontSize: '0.8rem' } }}
+                      sx={{ my: '0.08rem', '& span': { fontSize: '0.8rem' } }}
                     />
                   </ListItem>
                 ))
@@ -120,10 +121,10 @@ export function ClientFooter (): JSX.Element {
             {' ALL RIGHTS RESERVED'}
           </Typography>
           <Typography variant='body2' color='white' align='center'>
-            S.U.  |  FULLSTACK DEVELOPER
+            PROFESSIONAL FULL STACK DEVELOPER
           </Typography>
         </Grid>
       </Grid>
     </Container>
   )
-}
+})

@@ -15,7 +15,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import CircularProgress from '@mui/material/CircularProgress'
 import Link from '@mui/material/Link'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import { useFormik } from 'formik'
 import { LoginFormType, loginSchema } from '../../schemas/forms/login.schema'
 import { useFormError } from '../../hooks/useFormError'
@@ -25,6 +25,7 @@ import { setAccTokenLocalStorage, setRefTokenLocalStorage } from '../../utils/lo
 import { LoginUserAuthType } from '../../services/types/api-res'
 import { useNavigate } from 'react-router-dom'
 import { loginAdminAuth, loginUserAuth } from '../../services/authService'
+import { useSnackbar } from 'notistack'
 
 const initialValues: LoginFormType = {
   email: '',
@@ -40,6 +41,7 @@ export function LoginForm ({ isAdmin }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { loginAuthHandler } = useAuthContext()
   const navigate = useNavigate()
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleClickShowPassword = (): void => { setShowPassword((prev) => !prev) }
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -76,6 +78,7 @@ export function LoginForm ({ isAdmin }: PropsType): JSX.Element {
         await loginAuthHandler(accessToken)
         setAccTokenLocalStorage(accessToken)
         setRefTokenLocalStorage(refreshToken)
+        enqueueSnackbar('Logged in Successfully', { variant: 'success' })
         resetForm()
       } catch (err) {
         handleFormError(err)

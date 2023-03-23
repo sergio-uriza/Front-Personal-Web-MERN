@@ -5,7 +5,7 @@
     color: $text-light;
   }
 
-  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  .MuiPaper-root.MuiPaper-elevation {
     background-color: $background-dark-web;
     border-right: 1px solid gray;
   }
@@ -14,7 +14,7 @@
   .clientnavbar-toolbar {
     justify-content: center;
 
-    &.css-hyum1k-MuiToolbar-root {
+    &.MuiToolbar-root.MuiToolbar-gutters {
       padding-left: 10px;
       padding-right: 10px;
     }

@@ -12,6 +12,7 @@ import { useFormError } from '../../../hooks/useFormError'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { MenuFormType, menuSchema } from '../../../schemas/adminPage/menu.schema'
 import { createMenu, updateMenu } from '../../../services/menuService'
+import { useSnackbar } from 'notistack'
 
 const extractPrefix = (text: string): 'https://' | 'http://' | '/' => {
   if (text.startsWith('https://')) return 'https://'
@@ -60,6 +61,7 @@ type PropsType = {
 export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -80,6 +82,7 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
             accessToken,
             { title, order, path: prefix.concat(path), active: false }
           )
+          enqueueSnackbar('Menu Created', { variant: 'success' })
         } else {
           await updateMenu(
             accessToken,
@@ -90,6 +93,7 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
               path: (prefix.concat(path) !== menu.path ? prefix.concat(path) : undefined)
             }
           )
+          enqueueSnackbar('Menu Updated', { variant: 'success' })
         }
         resetForm()
         handleNewGet()

@@ -1,5 +1,5 @@
 import './ProfileUserPage.scss'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Button from '@mui/material/Button'
@@ -11,14 +11,17 @@ import { useAuthContext } from '../../hooks/context/useAuthContext'
 import { ConfirmModal } from '../../components/shared/ConfirmModal'
 import { useModalComponent } from '../../hooks/useModalComponent'
 import { updateMyUser } from '../../services/userService'
+import { useSnackbar } from 'notistack'
 
 export function ProfileUserPage (): JSX.Element {
   const { loggedUser, logoutAuthHandler } = useAuthContext()
   const { accessToken } = useAuthContext()
   const { showModal, handleCloseModal, handleOpenModal } = useModalComponent()
+  const { enqueueSnackbar } = useSnackbar()
 
   const fetchDesactiveMeUser = async (): Promise<void> => {
     await updateMyUser(accessToken, { active: false })
+    enqueueSnackbar('Account Deactivated', { variant: 'warning' })
     logoutAuthHandler()
   }
 

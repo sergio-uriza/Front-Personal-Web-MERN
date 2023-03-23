@@ -9,6 +9,7 @@ import { useModalComponent } from '../../../hooks/useModalComponent'
 import { NewsletterTypeAPI } from '../../../services/types/api-res'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteNewsletter } from '../../../services/newsletterService'
+import { useSnackbar } from 'notistack'
 
 type PropsType = {
   newsletter: NewsletterTypeAPI
@@ -19,6 +20,7 @@ export function NewsletterItem ({ newsletter, handleNewGet }: PropsType): JSX.El
   const { accessToken } = useAuthContext()
   const modalConfirm = useModalComponent()
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleOpenConfirmModalDelete = (): void => {
     setModalConfirmMessage(
@@ -29,6 +31,7 @@ export function NewsletterItem ({ newsletter, handleNewGet }: PropsType): JSX.El
 
   const fetchDeleteItem = async (): Promise<void> => {
     await deleteNewsletter(accessToken, newsletter._id)
+    enqueueSnackbar('Email Address Deleted', { variant: 'success' })
     handleNewGet()
   }
 
@@ -50,7 +53,7 @@ export function NewsletterItem ({ newsletter, handleNewGet }: PropsType): JSX.El
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            ' p': { wordBreak: 'break-word' }
+            '& p': { wordBreak: 'break-word' }
           }}
         >
           <Typography

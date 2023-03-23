@@ -17,6 +17,7 @@ import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteBlog } from '../../../services/blogService'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { DateTime } from 'luxon'
+import { useSnackbar } from 'notistack'
 
 type PropsType = {
   blog: BlogTypeAPI
@@ -29,6 +30,7 @@ export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
+  const { enqueueSnackbar } = useSnackbar()
   const date = new Date(blog.createdAt)
 
   const handleCustomOpenModal = (): void => {
@@ -45,6 +47,7 @@ export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
 
   const fetchDeleteItem = async (): Promise<void> => {
     await deleteBlog(accessToken, blog._id)
+    enqueueSnackbar('Blog Deleted', { variant: 'success' })
     handleNewGet()
   }
 
@@ -81,6 +84,7 @@ export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
               height: 'auto',
               fontSize: '28px'
             }}
+            imgProps={{ loading: 'lazy' }}
           />
           <Box
             component='div'
@@ -88,7 +92,7 @@ export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              ' p': { wordBreak: 'break-word' }
+              '& p': { wordBreak: 'break-word' }
             }}
           >
             <Typography

@@ -4,13 +4,14 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 import Link from '@mui/material/Link'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import { useFormik } from 'formik'
 import { useFormError } from '../../hooks/useFormError'
 import { TermsAndConditions } from '../property/TermsAndConditions'
 import { useModalComponent } from '../../hooks/useModalComponent'
 import { NewsletterFormType, newsletterSchema } from '../../schemas/forms/newsletter.schema'
 import { suscribeNewsletter } from '../../services/newsletterService'
+import { useSnackbar } from 'notistack'
 
 const initialValues: NewsletterFormType = {
   email: ''
@@ -19,6 +20,7 @@ const initialValues: NewsletterFormType = {
 export function NewsletterForm (): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { showModal, handleOpenModal, handleCloseModal } = useModalComponent()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -34,6 +36,7 @@ export function NewsletterForm (): JSX.Element {
       try {
         clearFormError()
         await suscribeNewsletter(email)
+        enqueueSnackbar('Subscribed Successfully', { variant: 'success' })
         resetForm()
       } catch (err) {
         handleFormError(err)
@@ -58,7 +61,7 @@ export function NewsletterForm (): JSX.Element {
         size='small'
         required
         fullWidth
-        sx={{ ' input': { bgcolor: 'white' } }}
+        sx={{ '& input': { bgcolor: 'white' } }}
       />
 
       <Button

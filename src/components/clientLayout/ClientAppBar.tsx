@@ -9,17 +9,17 @@ import { ProfileButton } from '../shared/ProfileButton'
 import { useAuthContext } from '../../hooks/context/useAuthContext'
 import { IconMERN } from '../../assets/svg/IconMERN'
 import { Link } from 'react-router-dom'
-import { MenuTypeAPI } from '../../services/types/api-res'
 import { ClientSocialMedia } from './ClientSocialMedia'
 import { LoginButton } from '../shared/LoginButton'
+import { useGetMultipleMenu } from '../../hooks/useGetMultipleMenu'
 
 type PropsType = {
   handleDrawerToggle: () => void
-  menusList: MenuTypeAPI[] | null
 }
 
-export function ClientAppBar ({ handleDrawerToggle, menusList }: PropsType): JSX.Element {
+export function ClientAppBar ({ handleDrawerToggle }: PropsType): JSX.Element {
   const { loggedUser } = useAuthContext()
+  const { menusList } = useGetMultipleMenu(true)
 
   return (
     <AppBar component='nav' className='clientappbar-header'>

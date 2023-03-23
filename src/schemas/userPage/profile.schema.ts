@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const profileUserSchema = Yup.object({
+export const profileUserSchema = Yup.object().shape({
   firstname: Yup
     .string()
     .trim()
@@ -22,11 +22,14 @@ export const profileUserSchema = Yup.object({
     .email('Enter a valid email')
     .max(50, 'Max 50 characters')
     .required('Email is required'),
-  role: Yup
+  oldPassword: Yup
     .string()
-    .oneOf(['Administrator', 'User'])
-    .required('Role is required'),
-  password: Yup
+    .when('newPassword', {
+      is: (value: string | undefined) => (value != null),
+      then: Yup.string().required(),
+      otherwise: Yup.string().optional()
+    }),
+  newPassword: Yup
     .string()
     .matches(/^([^<>]*)$/, 'Invalid characters')
     .matches(/(?=.*[a-z])/, 'At least 1 lowercase')
@@ -34,13 +37,18 @@ export const profileUserSchema = Yup.object({
     .matches(/(?=.*[0-9])/, 'At least 1 number')
     .min(6, 'Min 6 characters')
     .max(18, 'Max 18 characters')
-    .optional(),
-  confpwd: Yup
-    .string()
-    .when('password', {
+    .when('oldPassword', {
       is: (value: string | undefined) => (value != null),
-      then: Yup.string().oneOf([Yup.ref('password')], 'Password must match').required()
+      then: Yup.string().required(),
+      otherwise: Yup.string().optional()
+    }),
+  confNewPwd: Yup
+    .string()
+    .when('newPassword', {
+      is: (value: string | undefined) => (value != null),
+      then: Yup.string().oneOf([Yup.ref('newPassword')], 'New password must match').required(),
+      otherwise: Yup.string().optional()
     })
-})
+}, [['newPassword', 'oldPassword']])
 
-export type ProfileUserFormType = Yup.InferType<typeof profileUserSchema>
+export type ProfileUserFormType = Pick<Yup.InferType<typeof profileUserSchema>, 'firstname' | 'lastname' | 'email' | 'oldPassword' | 'newPassword' | 'confNewPwd'>

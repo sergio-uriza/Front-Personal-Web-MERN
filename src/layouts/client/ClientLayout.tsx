@@ -5,9 +5,8 @@ import { ClientScrollTop } from '../../components/clientLayout/ClientScrollTop'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import { Box } from '@mui/material'
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { ClientNavBarRes } from '../../components/clientLayout/ClientNavBar'
-import { useGetMultipleMenu } from '../../hooks/useGetMultipleMenu'
 import { ClientFooter } from '../../components/clientLayout/ClientFooter'
 
 const drawerWidth = 190
@@ -18,9 +17,9 @@ type PropsType = {
 
 export function ClientLayout ({ children }: PropsType): JSX.Element {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false)
-  const { menusList } = useGetMultipleMenu(true)
+  const ToolbarTopRef = useRef<HTMLDivElement>(null)
 
-  const handleDrawerToggle = (): void => { setMobileOpen((prev) => !prev) }
+  const handleDrawerToggle = useCallback((): void => { setMobileOpen((prev) => !prev) }, [])
 
   return (
     <Box
@@ -31,7 +30,6 @@ export function ClientLayout ({ children }: PropsType): JSX.Element {
       <CssBaseline />
       <ClientAppBar
         handleDrawerToggle={handleDrawerToggle}
-        menusList={menusList}
       />
 
       {/* NAVBAR SIDE */}
@@ -39,12 +37,11 @@ export function ClientLayout ({ children }: PropsType): JSX.Element {
         drawerWidth={drawerWidth}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
-        menusList={menusList}
       />
-      <Toolbar id='back-to-top-anchor' />
+      <Toolbar ref={ToolbarTopRef} />
 
       {/* CONTENT SIDE */}
-      { (children != null) ? children : <Outlet/> }
+      {(children != null) ? children : <Outlet/>}
 
       {/* FOOTER SIDE */}
       <Box
@@ -58,7 +55,7 @@ export function ClientLayout ({ children }: PropsType): JSX.Element {
         }}
       >
         <ClientFooter />
-        <ClientScrollTop idBaseElement='back-to-top-anchor' />
+        <ClientScrollTop baseElementRef={ToolbarTopRef} />
       </Box>
     </Box>
   )

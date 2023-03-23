@@ -1,0 +1,41 @@
+.notistack-Snackbar.go3963613292 {
+  min-width: 10rem;
+}
+
+.notistack-MuiContent.notistack-MuiContent-error {
+  font-family: 'Roboto', sans-serif;
+  min-width: 10rem;
+  color: rgb(253, 237, 237);
+  background-color: rgb(95, 33, 32);
+}
+
+.notistack-MuiContent.notistack-MuiContent-success {
+  font-family: 'Roboto', sans-serif;
+  min-width: 10rem;
+  color: rgb(30, 70, 32);
+  background-color: rgb(237, 247, 237);
+}
+
+.notistack-MuiContent.notistack-MuiContent-info {
+  font-family: 'Roboto', sans-serif;
+  min-width: 10rem;
+  color: rgb(1, 67, 97);
+  background-color: rgb(229, 246, 253);
+}
+
+.notistack-MuiContent.notistack-MuiContent-warning {
+  font-family: 'Roboto', sans-serif;
+  min-width: 10rem;
+  color: rgb(102, 60, 0);
+  background-color: rgb(255, 244, 229);
+}
+
+.notistack-MuiContent .go946087465 {
+  padding-right: 1rem;
+}
+
+@media (max-width: 599.95px) {
+  .notistack-SnackbarContainer.go1141946668 {
+    width: max-content;
+  }
+}

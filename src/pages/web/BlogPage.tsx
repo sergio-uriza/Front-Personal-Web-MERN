@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { Box } from '@mui/material'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Container from '@mui/material/Container'
 import Pagination from '@mui/material/Pagination'
@@ -40,7 +40,7 @@ export function BlogPage (): JSX.Element {
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <GroupsIcon
           sx={{
-            fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' }
+            fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white'
           }}
         />
         <h3
@@ -71,7 +71,7 @@ export function BlogPage (): JSX.Element {
     return (
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <GroupsIcon
-          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' } }}
+          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white' }}
         />
         <h3
           style={{
@@ -101,7 +101,7 @@ export function BlogPage (): JSX.Element {
               justifyContent: 'center'
             }}
           >
-            No Courses Data
+            No Blogs Data
             <CloudOffIcon fontSize='medium' sx={{ pl: 1 }} />
           </span>
         </Box>
@@ -111,7 +111,7 @@ export function BlogPage (): JSX.Element {
     return (
       <Container maxWidth='md' sx={{ textAlign: 'center', mt: '4rem', mb: '7rem' }}>
         <GroupsIcon
-          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem', color: 'white' } }}
+          sx={{ fontSize: { xs: '3.5rem', sm: '3.5rem', md: '4.1rem' }, color: 'white' }}
         />
         <h3
           style={{
@@ -152,8 +152,8 @@ export function BlogPage (): JSX.Element {
         >
           <Pagination
             sx={{
-              ' button': { color: 'white', border: '1px solid rgba(255, 255, 255, 0.23)', bgcolor: '#16212b' },
-              ' .css-1v2lvtn-MuiPaginationItem-root': { color: 'white' }
+              '& button': { color: 'white', border: '1px solid rgba(255, 255, 255, 0.23)', bgcolor: '#16212b' },
+              '& .MuiPaginationItem-root': { color: 'white' }
             }}
             count={totalPages}
             page={page <= totalPages ? page : totalPages}

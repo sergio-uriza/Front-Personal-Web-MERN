@@ -88,7 +88,7 @@ export function MyBlogItem ({ myBlog, handleNewGet }: PropsType): JSX.Element {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              ' p': { wordBreak: 'break-word' }
+              '& p': { wordBreak: 'break-word' }
             }}
           >
             <Typography

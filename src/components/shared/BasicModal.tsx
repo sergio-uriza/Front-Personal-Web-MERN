@@ -37,8 +37,8 @@ export function BasicModal ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        lignItems: 'center',
-        ' .css-iz3z40-MuiDialog-container::-webkit-scrollbar': { display: 'none' }
+        alignItems: 'center',
+        '& .MuiDialog-container.MuiDialog-scrollBody::-webkit-scrollbar': { display: 'none' }
       }}
       open={show}
       TransitionComponent={Transition}

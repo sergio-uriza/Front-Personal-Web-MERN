@@ -8,7 +8,7 @@ type PropsType = {
 export function BackdropLoading ({ open }: PropsType): JSX.Element {
   return (
     <Backdrop
-      sx={{ color: '#fff', backGroundColor: 'red' }}
+      sx={{ color: '#fff' }}
       open={open}
       transitionDuration={1900}
     >

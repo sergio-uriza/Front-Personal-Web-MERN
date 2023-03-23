@@ -5,6 +5,8 @@ import Slide from '@mui/material/Slide'
 import Dialog from '@mui/material/Dialog'
 import { TransitionProps } from '@mui/material/transitions'
 import { forwardRef } from 'react'
+import { AllTermsText } from './AllTermsText'
+import { AllPrivacyText } from './AllPrivacyText'
 
 const Transition = forwardRef(function Transition (
   props: TransitionProps & { children: JSX.Element },
@@ -21,11 +23,13 @@ type PropsType = {
 export function TermsAndConditions ({ show, handleClose }: PropsType): JSX.Element {
   return (
     <Dialog
+      className='termsandconditions-main'
       sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        '& .MuiDialog-container.MuiDialog-scrollBody::-webkit-scrollbar': { display: 'none' }
       }}
       open={show}
       TransitionComponent={Transition}
@@ -34,11 +38,17 @@ export function TermsAndConditions ({ show, handleClose }: PropsType): JSX.Eleme
       disableEnforceFocus
     >
       <Box className='termsandconditions-body'>
-        <Typography id='transition-modal-title' variant='h6' component='h2'>
-          Terms and conditions of the service
+        <Typography variant='h6' component='h2'>
+          Terminos y Condiciones de la Pagina
         </Typography>
-        <Typography id='transition-modal-description' sx={{ mt: 2 }}>
-          Reglas de la pagina
+        <Typography component='div' sx={{ mt: 2 }}>
+          <AllTermsText />
+        </Typography>
+        <Typography variant='h6' component='h2' sx={{ mt: 3 }}>
+          Politica de Privacidad
+        </Typography>
+        <Typography component='div' sx={{ mt: 2 }}>
+          <AllPrivacyText />
         </Typography>
       </Box>
     </Dialog>

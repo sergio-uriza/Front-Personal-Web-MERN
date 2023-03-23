@@ -5,21 +5,17 @@ import useScrollTrigger from '@mui/material/useScrollTrigger'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 type PropsType = {
-  idBaseElement: string
+  baseElementRef: React.RefObject<HTMLDivElement>
 }
 
-export function ClientScrollTop ({ idBaseElement }: PropsType): JSX.Element {
+export function ClientScrollTop ({ baseElementRef }: PropsType): JSX.Element {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100
   })
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-    const anchor = (
-      ((e.target as HTMLDivElement).ownerDocument as Document | null) != null
-        ? (e.target as HTMLDivElement).ownerDocument
-        : document
-    ).querySelector(`#${idBaseElement}`)
+  const handleClick = (_e: React.MouseEvent<HTMLDivElement>): void => {
+    const anchor = baseElementRef.current
 
     if (anchor != null) {
       anchor.scrollIntoView({ block: 'center' })

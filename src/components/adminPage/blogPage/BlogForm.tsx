@@ -18,6 +18,7 @@ import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { SERVER_ROUTES } from '../../../services/config/constants.config'
 import { BlogFormType, blogSchema } from '../../../schemas/adminPage/blog.schema'
 import { createBlog, updateBlog } from '../../../services/blogService'
+import { useSnackbar } from 'notistack'
 
 const extractWithoutPrefix = (text: string): string => {
   return text.substring(1)
@@ -43,6 +44,7 @@ type PropsType = {
 export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { accessToken } = useAuthContext()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
@@ -65,6 +67,7 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
             { title, content, path: prefix.concat(path) },
             miniature
           )
+          enqueueSnackbar('Blog Created', { variant: 'success' })
         } else {
           await updateBlog(
             accessToken,
@@ -76,6 +79,7 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
             },
             miniature
           )
+          enqueueSnackbar('Blog Updated', { variant: 'success' })
         }
         resetForm()
         handleNewGet()
@@ -91,7 +95,7 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
     const file = acceptedFiles[0]
     void setFieldValue('miniatureURL', URL.createObjectURL(file))
     void setFieldValue('miniature', file)
-  }, [])
+  }, [setFieldValue])
 
   const { getRootProps, getInputProps } = useDropzoneImage(onDrop)
 
@@ -107,16 +111,11 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
   return (
     <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1, px: '7%' }} >
       <Grid container rowSpacing={{ xs: 1, sm: 2 }} columnSpacing={3}>
-        <Grid xs={12} sm={12} display='flex' justifyContent='center'>
+        <Grid xs={12} sm={12} display='flex' alignItems='center' flexDirection='column'>
           <div {...getRootProps()}>
             <input {...getInputProps()} name='miniatureURL' />
             <Avatar
               variant='rounded'
-              style={{
-                borderColor: (touched.miniatureURL === true) && (errors.miniatureURL != null)
-                  ? 'red'
-                  : 'none'
-              }}
               sx={{
                 fontSize: '53px',
                 m: 1,
@@ -132,6 +131,9 @@ export function BlogForm ({ handleCloseModal, handleNewGet, blog }: PropsType): 
               {values.miniatureURL === '' ? <PermMediaIcon sx={{ fontSize: '55px' }} /> : null}
             </Avatar>
           </div>
+          <FormHelperText error sx={{ textAlign: 'center' }}>
+            { (touched.miniatureURL === true) && errors.miniatureURL }
+          </FormHelperText>
         </Grid>
         <Grid xs={12} sm={12}>
           <TextField

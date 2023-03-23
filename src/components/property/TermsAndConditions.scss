@@ -1,14 +1,19 @@
-.termsandconditions-body {
-  box-sizing: border-box;
-  background-color: white;
-  max-width: 760px;
-  min-width: 300px;
-  padding: 2%;
-  border: 2px solid #000;
-  border-radius: 5px;
-  z-index: 1;
+.termsandconditions-main {
+  .MuiPaper-root.MuiPaper-elevation {
+    max-width: none;
+  }
 
-  & h2 {
-    text-align: center;
+  .termsandconditions-body {
+    width: 80vw;
+    box-sizing: border-box;
+    background-color: white;
+    min-width: 300px;
+    padding: 2%;
+    border-radius: 5px;
+    z-index: 1;
+  
+    & h2 {
+      text-align: center;
+    }
   }
 }
