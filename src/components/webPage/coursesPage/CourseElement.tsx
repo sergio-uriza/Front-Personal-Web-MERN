@@ -6,7 +6,7 @@ import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import Box from '@mui/material/Box'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 
 const numberFormat = new Intl.NumberFormat('en-US')
 

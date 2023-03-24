@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import CircularProgress from '@mui/material/CircularProgress'
 import CloudOffIcon from '@mui/icons-material/CloudOff'
 import ReactHtmlParser from 'react-html-parser'
-import { SERVER_ROUTES } from '../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../services/config/routes.config'
 
 export function BlogDetailPage (): JSX.Element {
   const { path } = useParams()

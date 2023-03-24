@@ -1,14 +1,14 @@
+import { verifyAccessToken } from '../utils/verifyAccessToken'
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { GetMultipleNewsletterType, MessageResponseType } from './types/api-res'
 
 export const getMultipleNewsletter = async (
-  accessToken: string | null,
   limit = 10,
   page = 1,
   order = 1
 ): Promise<GetMultipleNewsletterType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -22,10 +22,9 @@ export const getMultipleNewsletter = async (
 }
 
 export const deleteNewsletter = async (
-  accessToken: string | null,
   idNewsletter: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getAccTokenLocalStorage, getRefTokenLocalStorage } from '../utils/localStorage'
-import { isValidToken } from '../utils/tokenValidator'
+import { isExpiredToken, isValidToken } from '../utils/tokenValidator'
 import { useAuthContext } from './context/useAuthContext'
 
 type UseRecoverLoginType = {
@@ -19,13 +19,24 @@ export const useRecoverLogin = (): UseRecoverLoginType => {
     const accToken = getAccTokenLocalStorage()
     const refToken = getRefTokenLocalStorage()
 
-    if (accToken == null || refToken == null) {
+    let expAccToken: number | false = false
+    if (accToken != null) expAccToken = isValidToken(accToken)
+
+    let expRefToken: number | false = false
+    if (refToken != null) expRefToken = isValidToken(refToken)
+
+    if (
+      accToken == null ||
+      refToken == null ||
+      expAccToken === false ||
+      expRefToken === false
+    ) {
       logoutAuthHandler()
       setIsRecovering(false)
       return
     }
 
-    if (isValidToken(accToken)) {
+    if (!isExpiredToken(expAccToken)) {
       loginAuthHandler(accToken)
         .then(() => {
           setIsRecovering(false)
@@ -35,7 +46,7 @@ export const useRecoverLogin = (): UseRecoverLoginType => {
           setIsRecovering(false)
         })
     } else {
-      if (isValidToken(refToken)) {
+      if (!isExpiredToken(expRefToken)) {
         reloginAuthHandler(refToken)
           .then(() => {
             setIsRecovering(false)

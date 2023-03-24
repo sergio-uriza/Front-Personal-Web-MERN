@@ -1,7 +1,8 @@
 import { CreateBlogBodyType, UpdateBlogBodyType } from './types/app-req'
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { GetByPathBlogType, GetMultipleBlogType, GetMyMultipleBlogType, MessageResponseType } from './types/api-res'
+import { verifyAccessToken } from '../utils/verifyAccessToken'
 
 export const getByPathBlog = async (
   path: string | undefined
@@ -16,11 +17,10 @@ export const getByPathBlog = async (
 }
 
 export const getMyMultipleBlog = async (
-  accessToken: string | null,
   limit = 10,
   page = 1
 ): Promise<GetMyMultipleBlogType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -44,11 +44,10 @@ export const getMultipleBlog = async (
 }
 
 export const createBlog = async (
-  accessToken: string | null,
   blog: CreateBlogBodyType,
   miniature?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(blog).forEach((key) => {
@@ -67,12 +66,11 @@ export const createBlog = async (
 }
 
 export const updateMyBlog = async (
-  accessToken: string | null,
   idMyBlog: string,
   blog: UpdateBlogBodyType,
   miniature?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(blog).forEach((key) => {
@@ -93,12 +91,11 @@ export const updateMyBlog = async (
 }
 
 export const updateBlog = async (
-  accessToken: string | null,
   idBlog: string,
   blog: UpdateBlogBodyType,
   miniature?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(blog).forEach((key) => {
@@ -119,10 +116,9 @@ export const updateBlog = async (
 }
 
 export const deleteMyBlog = async (
-  accessToken: string | null,
   idMyBlog: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -135,10 +131,9 @@ export const deleteMyBlog = async (
 }
 
 export const deleteBlog = async (
-  accessToken: string | null,
   idBlog: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }

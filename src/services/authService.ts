@@ -1,5 +1,5 @@
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { LoginUserAuthType, MessageResponseType, RefreshAccTokenAuthType } from './types/api-res'
 
 export const registerUserAuth = async (

@@ -14,7 +14,7 @@ import { useFormError } from '../../../hooks/useFormError'
 import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
 import { updateMyUser } from '../../../services/userService'
 import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { ProfileUserFormType, profileUserSchema } from '../../../schemas/userPage/profile.schema'
 import { useSnackbar } from 'notistack'
 
@@ -40,7 +40,6 @@ type PropsType = {
 export function ProfileForm ({ myUser }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
   const { logoutAuthHandler, updateLoggedUserAuth } = useAuthContext()
-  const { accessToken } = useAuthContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -59,7 +58,6 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
       try {
         clearFormError()
         const newMyUser = await updateMyUser(
-          accessToken,
           { firstname, lastname, oldPassword, newPassword },
           avatar
         )
@@ -156,7 +154,7 @@ export function ProfileForm ({ myUser }: PropsType): JSX.Element {
               type='email'
               label='Email Address'
               margin='none'
-              defaultValue={values.email}
+              value={values.email}
               error={(touched.email === true) && Boolean(errors.email)}
               helperText={(values.email !== '') && (touched.email === true) && errors.email}
               size='small'

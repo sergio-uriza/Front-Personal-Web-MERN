@@ -1,8 +1,8 @@
-const SERVER_IP = 'localhost:3977'
+import { SERVER_URL, SERVER_URL_API } from '../../const'
 
 export const SERVER_ROUTES = {
-  BASE_PATH: `http://${SERVER_IP}`,
-  BASE_API: `http://${SERVER_IP}/api`,
+  BASE_PATH: SERVER_URL,
+  BASE_API: SERVER_URL_API,
   ENDPOINTS: {
     AUTH: {
       REGISTER_USER: '/auth/register',

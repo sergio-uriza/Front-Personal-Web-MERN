@@ -12,9 +12,8 @@ import { useState } from 'react'
 import { ConfirmModal } from '../../shared/ConfirmModal'
 import { GetMyBlogType } from '../../../services/types/api-res'
 import { Link } from 'react-router-dom'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { DateTime } from 'luxon'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { MyBlogForm } from './MyBlogForm'
 import { deleteMyBlog } from '../../../services/blogService'
 
@@ -24,7 +23,6 @@ type PropsType = {
 }
 
 export function MyBlogItem ({ myBlog, handleNewGet }: PropsType): JSX.Element {
-  const { accessToken } = useAuthContext()
   const modalEdit = useModalComponent()
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
@@ -44,7 +42,7 @@ export function MyBlogItem ({ myBlog, handleNewGet }: PropsType): JSX.Element {
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
-    await deleteMyBlog(accessToken, myBlog._id)
+    await deleteMyBlog(myBlog._id)
     handleNewGet()
   }
 

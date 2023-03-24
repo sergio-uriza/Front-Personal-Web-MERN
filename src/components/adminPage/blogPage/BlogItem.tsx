@@ -13,9 +13,8 @@ import { ConfirmModal } from '../../shared/ConfirmModal'
 import { BlogTypeAPI } from '../../../services/types/api-res'
 import { Link } from 'react-router-dom'
 import { BlogForm } from './BlogForm'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteBlog } from '../../../services/blogService'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { DateTime } from 'luxon'
 import { useSnackbar } from 'notistack'
 
@@ -25,7 +24,6 @@ type PropsType = {
 }
 
 export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
-  const { accessToken } = useAuthContext()
   const modalEdit = useModalComponent()
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
@@ -46,7 +44,7 @@ export function BlogItem ({ blog, handleNewGet }: PropsType): JSX.Element {
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
-    await deleteBlog(accessToken, blog._id)
+    await deleteBlog(blog._id)
     enqueueSnackbar('Blog Deleted', { variant: 'success' })
     handleNewGet()
   }

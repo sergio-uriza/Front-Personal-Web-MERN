@@ -15,8 +15,7 @@ import { useCallback } from 'react'
 import { CourseTypeAPI } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
 import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { CourseFormType, courseSchema } from '../../../schemas/adminPage/course.schema'
 import { createCourse, updateCourse } from '../../../services/courseService'
 import { useSnackbar } from 'notistack'
@@ -65,7 +64,6 @@ type PropsType = {
 
 export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
-  const { accessToken } = useAuthContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -85,7 +83,6 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
         clearFormError()
         if (course == null) {
           await createCourse(
-            accessToken,
             {
               title,
               description,
@@ -98,7 +95,6 @@ export function CourseForm ({ handleCloseModal, handleNewGet, course }: PropsTyp
           enqueueSnackbar('Course Created', { variant: 'success' })
         } else {
           await updateCourse(
-            accessToken,
             course._id,
             {
               title,

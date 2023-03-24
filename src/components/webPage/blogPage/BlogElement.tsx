@@ -6,7 +6,7 @@ import CardActionArea from '@mui/material/CardActionArea'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Link } from 'react-router-dom'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { DateTime } from 'luxon'
 
 type PropsType = {

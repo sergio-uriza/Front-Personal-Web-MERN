@@ -10,7 +10,7 @@ import CoPresentIcon from '@mui/icons-material/CoPresent'
 import Tooltip from '@mui/material/Tooltip'
 import { useState } from 'react'
 import { useAuthContext } from '../../hooks/context/useAuthContext'
-import { SERVER_ROUTES } from '../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../services/config/routes.config'
 import { UserRole } from '../../enums/userRole.enum'
 import { useNavigate } from 'react-router-dom'
 

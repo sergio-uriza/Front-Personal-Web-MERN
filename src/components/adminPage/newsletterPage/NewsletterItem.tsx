@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { ConfirmModal } from '../../shared/ConfirmModal'
 import { useModalComponent } from '../../../hooks/useModalComponent'
 import { NewsletterTypeAPI } from '../../../services/types/api-res'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteNewsletter } from '../../../services/newsletterService'
 import { useSnackbar } from 'notistack'
 
@@ -17,7 +16,6 @@ type PropsType = {
 }
 
 export function NewsletterItem ({ newsletter, handleNewGet }: PropsType): JSX.Element {
-  const { accessToken } = useAuthContext()
   const modalConfirm = useModalComponent()
   const [modalConfirmMessage, setModalConfirmMessage] = useState<string>('')
   const { enqueueSnackbar } = useSnackbar()
@@ -30,7 +28,7 @@ export function NewsletterItem ({ newsletter, handleNewGet }: PropsType): JSX.El
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
-    await deleteNewsletter(accessToken, newsletter._id)
+    await deleteNewsletter(newsletter._id)
     enqueueSnackbar('Email Address Deleted', { variant: 'success' })
     handleNewGet()
   }

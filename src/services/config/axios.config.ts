@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SERVER_ROUTES } from './constants.config'
+import { SERVER_ROUTES } from './routes.config'
 
 export const axiosConfig = axios.create(
   {

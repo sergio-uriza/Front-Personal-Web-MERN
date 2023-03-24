@@ -9,7 +9,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useFormik } from 'formik'
 import { MenuTypeAPI } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { MenuFormType, menuSchema } from '../../../schemas/adminPage/menu.schema'
 import { createMenu, updateMenu } from '../../../services/menuService'
 import { useSnackbar } from 'notistack'
@@ -60,7 +59,6 @@ type PropsType = {
 
 export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
-  const { accessToken } = useAuthContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -79,13 +77,11 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
         clearFormError()
         if (menu == null) {
           await createMenu(
-            accessToken,
             { title, order, path: prefix.concat(path), active: false }
           )
           enqueueSnackbar('Menu Created', { variant: 'success' })
         } else {
           await updateMenu(
-            accessToken,
             menu._id,
             {
               title,
@@ -202,7 +198,6 @@ export function MenuForm ({ handleCloseModal, handleNewGet, menu }: PropsType): 
       >
         { formError }
       </Typography>
-
     </Box>
   )
 }

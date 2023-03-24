@@ -7,13 +7,12 @@ import PreviewIcon from '@mui/icons-material/Preview'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { BasicModal } from '../../shared/BasicModal'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { useModalComponent } from '../../../hooks/useModalComponent'
 import { useState } from 'react'
 import { ConfirmModal } from '../../shared/ConfirmModal'
 import { CourseTypeAPI } from '../../../services/types/api-res'
 import { CourseForm } from './CourseForm'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
 import { deleteCourse } from '../../../services/courseService'
 import { useSnackbar } from 'notistack'
 
@@ -23,7 +22,6 @@ type PropsType = {
 }
 
 export function CourseItem ({ course, handleNewGet }: PropsType): JSX.Element {
-  const { accessToken } = useAuthContext()
   const modalEdit = useModalComponent()
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
@@ -43,7 +41,7 @@ export function CourseItem ({ course, handleNewGet }: PropsType): JSX.Element {
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
-    await deleteCourse(accessToken, course._id)
+    await deleteCourse(course._id)
     enqueueSnackbar('Course Deleted', { variant: 'success' })
     handleNewGet()
   }

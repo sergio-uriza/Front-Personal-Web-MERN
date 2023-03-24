@@ -1,7 +1,8 @@
 import { CreateUserBodyType, UpdateMyUserBodyType, UpdateUserBodyType } from './types/app-req'
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { GetMyUserType, GetMultipleUserType, MessageResponseType } from './types/api-res'
+import { verifyAccessToken } from '../utils/verifyAccessToken'
 
 export const getMyUser = async (
   accessToken: string
@@ -17,11 +18,10 @@ export const getMyUser = async (
 }
 
 export const updateMyUser = async (
-  accessToken: string | null,
   myUser: UpdateMyUserBodyType,
   avatar?: File
 ): Promise<GetMyUserType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(myUser).forEach((key) => {
@@ -42,10 +42,9 @@ export const updateMyUser = async (
 }
 
 export const getMultipleUser = async (
-  accessToken: string | null,
   active: boolean
 ): Promise<GetMultipleUserType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -58,11 +57,10 @@ export const getMultipleUser = async (
 }
 
 export const createUser = async (
-  accessToken: string | null,
   user: CreateUserBodyType,
   avatar?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(user).forEach((key) => {
@@ -81,12 +79,11 @@ export const createUser = async (
 }
 
 export const updateUser = async (
-  accessToken: string | null,
   idUser: string,
   user: UpdateUserBodyType,
   avatar?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(user).forEach((key) => {
@@ -107,10 +104,9 @@ export const updateUser = async (
 }
 
 export const deleteUser = async (
-  accessToken: string | null,
   idUser: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getMyMultipleBlog } from '../services/blogService'
 import { GetMyBlogType } from '../services/types/api-res'
-import { useAuthContext } from './context/useAuthContext'
 
 type UseGetMyMultipleBlogType = {
   myBlogsList: GetMyBlogType[] | null
@@ -14,11 +13,10 @@ export const useGetMyMultipleBlog = (
   newGet?: boolean
 ): UseGetMyMultipleBlogType => {
   const [myBlogsList, setMyBlogsList] = useState<GetMyBlogType[] | null>(null)
-  const { accessToken } = useAuthContext()
 
   useEffect(() => {
     setMyBlogsList(null)
-    getMyMultipleBlog(accessToken, limit, page)
+    getMyMultipleBlog(limit, page)
       .then((res) => {
         setMyBlogsList(res.docs)
         handleTotalPage(res.totalPages)
@@ -27,7 +25,7 @@ export const useGetMyMultipleBlog = (
         setMyBlogsList([])
         handleTotalPage(1)
       })
-  }, [accessToken, handleTotalPage, limit, newGet, page])
+  }, [handleTotalPage, limit, newGet, page])
 
   return {
     myBlogsList

@@ -1,7 +1,8 @@
 import { CreateMenuBodyType, UpdateMenuBodyType } from './types/app-req'
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { GetMultipleMenuType, MessageResponseType } from './types/api-res'
+import { verifyAccessToken } from '../utils/verifyAccessToken'
 
 export const getMultipleMenu = async (
   active: boolean
@@ -14,10 +15,9 @@ export const getMultipleMenu = async (
 }
 
 export const createMenu = async (
-  accessToken: string | null,
   menu: CreateMenuBodyType
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -30,11 +30,10 @@ export const createMenu = async (
 }
 
 export const updateMenu = async (
-  accessToken: string | null,
   idMenu: string,
   menu: UpdateMenuBodyType
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -47,10 +46,9 @@ export const updateMenu = async (
 }
 
 export const deleteMenu = async (
-  accessToken: string | null,
   idMenu: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }

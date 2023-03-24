@@ -15,12 +15,11 @@ import { useSnackbar } from 'notistack'
 
 export function ProfileUserPage (): JSX.Element {
   const { loggedUser, logoutAuthHandler } = useAuthContext()
-  const { accessToken } = useAuthContext()
   const { showModal, handleCloseModal, handleOpenModal } = useModalComponent()
   const { enqueueSnackbar } = useSnackbar()
 
   const fetchDesactiveMeUser = async (): Promise<void> => {
-    await updateMyUser(accessToken, { active: false })
+    await updateMyUser({ active: false })
     enqueueSnackbar('Account Deactivated', { variant: 'warning' })
     logoutAuthHandler()
   }

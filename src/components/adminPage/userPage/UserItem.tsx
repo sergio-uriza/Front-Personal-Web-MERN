@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { BasicModal } from '../../shared/BasicModal'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { useModalComponent } from '../../../hooks/useModalComponent'
 import { useState } from 'react'
 import { UserForm } from './UserForm'
@@ -25,7 +25,7 @@ type PropsType = {
 }
 
 export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
-  const { accessToken, loggedUser } = useAuthContext()
+  const { loggedUser } = useAuthContext()
   const modalEdit = useModalComponent()
   const modalConfirm = useModalComponent()
   const [titleModalEdit, setTitleModalEdit] = useState<string>('')
@@ -57,7 +57,7 @@ export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
   }
 
   const fetchToggleActive = async (): Promise<void> => {
-    await updateUser(accessToken, user._id, { active: !user.active })
+    await updateUser(user._id, { active: !user.active })
     enqueueSnackbar(
       user.active ? 'User Deactivated' : 'User Activated',
       { variant: user.active ? 'warning' : 'success' }
@@ -66,7 +66,7 @@ export function UserItem ({ user, handleNewGet }: PropsType): JSX.Element {
   }
 
   const fetchDeleteItem = async (): Promise<void> => {
-    await deleteUser(accessToken, user._id)
+    await deleteUser(user._id)
     enqueueSnackbar('User Deleted', { variant: 'success' })
     handleNewGet()
   }

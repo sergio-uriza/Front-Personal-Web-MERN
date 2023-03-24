@@ -14,8 +14,7 @@ import { useCallback } from 'react'
 import { GetMyBlogType } from '../../../services/types/api-res'
 import { useFormError } from '../../../hooks/useFormError'
 import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { BlogFormType, blogSchema } from '../../../schemas/adminPage/blog.schema'
 import { createBlog, updateMyBlog } from '../../../services/blogService'
 import { useSnackbar } from 'notistack'
@@ -45,7 +44,6 @@ type PropsType = {
 
 export function MyBlogForm ({ handleCloseModal, handleNewGet, myBlog }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
-  const { accessToken } = useAuthContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -65,14 +63,12 @@ export function MyBlogForm ({ handleCloseModal, handleNewGet, myBlog }: PropsTyp
         clearFormError()
         if (myBlog == null) {
           await createBlog(
-            accessToken,
             { title, content, path: prefix.concat(path) },
             miniature
           )
           enqueueSnackbar('Blog Created', { variant: 'success' })
         } else {
           await updateMyBlog(
-            accessToken,
             myBlog._id,
             {
               title,

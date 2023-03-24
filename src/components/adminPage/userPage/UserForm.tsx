@@ -14,8 +14,7 @@ import { UserRole } from '../../../enums/userRole.enum'
 import { useFormError } from '../../../hooks/useFormError'
 import { useDropzoneImage } from '../../../hooks/useDropzoneImage'
 import { createUser, updateUser } from '../../../services/userService'
-import { useAuthContext } from '../../../hooks/context/useAuthContext'
-import { SERVER_ROUTES } from '../../../services/config/constants.config'
+import { SERVER_ROUTES } from '../../../services/config/routes.config'
 import { UserFormType, createUserSchema, updateUserSchema } from '../../../schemas/adminPage/user.schema'
 import { useSnackbar } from 'notistack'
 
@@ -53,7 +52,6 @@ type PropsType = {
 
 export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): JSX.Element {
   const { formError, clearFormError, handleFormError } = useFormError()
-  const { accessToken } = useAuthContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -73,14 +71,12 @@ export function UserForm ({ handleCloseModal, handleNewGet, user }: PropsType): 
         clearFormError()
         if (user == null) {
           await createUser(
-            accessToken,
             { firstname, lastname, password, email, role },
             avatar
           )
           enqueueSnackbar('User Created', { variant: 'success' })
         } else {
           await updateUser(
-            accessToken,
             user._id,
             { firstname, lastname, password, role, email: email !== user.email ? email : '' },
             avatar

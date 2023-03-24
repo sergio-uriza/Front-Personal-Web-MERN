@@ -7,15 +7,22 @@ type PayloadTokenType = {
   exp?: number
 }
 
-export const isValidToken = (token: string): boolean => {
+export const isValidToken = (token: string): number | false => {
   try {
-    const { exp } = jwt_decode<PayloadTokenType>(token)
-    const currentTime = Math.floor(Date.now() / 1000)
+    const { type, userId, exp } = jwt_decode<PayloadTokenType>(token)
+    if (type == null || userId == null || exp == null) {
+      return false
+    }
 
-    if (exp == null || exp <= currentTime) return false
-
-    return true
+    return exp
   } catch (_err) {
     return false
   }
+}
+
+export const isExpiredToken = (expToken: number): boolean => {
+  const currentTime = Math.floor(Date.now() / 1000)
+
+  if (expToken <= currentTime) return true
+  return false
 }

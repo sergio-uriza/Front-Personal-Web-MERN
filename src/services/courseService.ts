@@ -1,7 +1,8 @@
 import { CreateCourseBodyType, UpdateCourseBodyType } from './types/app-req'
 import { axiosConfig } from './config/axios.config'
-import { SERVER_ROUTES } from './config/constants.config'
+import { SERVER_ROUTES } from './config/routes.config'
 import { GetMultipleCourseType, MessageResponseType } from './types/api-res'
+import { verifyAccessToken } from '../utils/verifyAccessToken'
 
 export const getMultipleCourse = async (
   limit = 10,
@@ -15,11 +16,10 @@ export const getMultipleCourse = async (
 }
 
 export const createCourse = async (
-  accessToken: string | null,
   course: CreateCourseBodyType,
   miniature?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(course).forEach((key) => {
@@ -38,12 +38,11 @@ export const createCourse = async (
 }
 
 export const updateCourse = async (
-  accessToken: string | null,
   idCourse: string,
   course: UpdateCourseBodyType,
   miniature?: File
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const formData = new FormData()
   Object.keys(course).forEach((key) => {
@@ -64,10 +63,9 @@ export const updateCourse = async (
 }
 
 export const deleteCourse = async (
-  accessToken: string | null,
   idCourse: string
 ): Promise<MessageResponseType> => {
-  if (accessToken == null) throw new Error('Request Error, you do not have credentials')
+  const accessToken = await verifyAccessToken()
 
   const config = {
     headers: { Authorization: `Bearer ${accessToken}` }
